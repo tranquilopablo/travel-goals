@@ -5,32 +5,31 @@ import {
   // Route,
   Link,
 } from 'react-router-dom';
+import Layout from './components/Layout';
 
 function App() {
-
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: '/',
       element: (
         <div>
+          <Layout/>
           <h1>Hello World</h1>
           <Link to="about">About Us</Link>
         </div>
       ),
     },
     {
-      path: "about",
+      path: 'about',
       element: <div>About</div>,
     },
   ]);
 
- 
-
   return (
     <>
-      <main>
-      <RouterProvider router={router}/>
-      </main>
+        <main>
+          <RouterProvider router={router} />
+        </main>
     </>
   );
 }
