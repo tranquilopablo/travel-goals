@@ -1,23 +1,19 @@
 // import React from 'react'
+import css from './MainNavigation.module.css';
 
-import MainHeader from "./MainHeader";
+import MainHeader from './MainHeader';
+import { Link } from 'react-router-dom';
+import NavLinks from './NavLinks';
 
 export default function MainNavigation() {
   return (
     <MainHeader>
-    {/* <button className={css.menuBtn} onClick={openSideMenu}>
-      <i
-        className={`fa fa-bars ${css.sideMenuIcon}`}
-        aria-hidden="true"
-      ></i>
-    </button>
-    <h1 className={css.title}>
-      <Link to="/">travelFocusApp</Link>
-    </h1>
-    <nav className={css.headerNav}>
-      <NavLinks />
-    </nav> */}
-    
-  </MainHeader>
-  )
+      <h1 className={css.title}>
+        <Link to="/">travelGoals</Link>
+      </h1>
+      <nav className={css.headerNav}>
+          <NavLinks />
+        </nav>
+    </MainHeader>
+  );
 }
