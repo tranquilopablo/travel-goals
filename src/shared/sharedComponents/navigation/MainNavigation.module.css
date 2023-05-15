@@ -1,3 +1,14 @@
+.menuBtn {
+  background: transparent;
+  border: none;
+  margin-right: 3rem;
+  cursor: pointer;
+}
+
+.sideMenuIcon {
+  font-size: 2rem;
+}
+
 .title a {
   text-decoration: none;
   font-family: 'Pacifico';
@@ -6,13 +17,19 @@
   font-size: 1.7rem;
 }
 .headerNav {
+  display: none;
+}
+
+.sideMenuNav {
+  height: 100%;
+  background-color: lightblue;
+}
+
+@media (min-width: 768px) {
+  /* .menuBtn {
     display: none;
+  } */
+  .headerNav {
+    display: block;
   }
-
-
-  @media (min-width: 768px) {
-   
-    .headerNav {
-      display: block;
-    }
-  }
+}
