@@ -26,9 +26,9 @@
 }
 
 @media (min-width: 768px) {
-  /* .menuBtn {
+  .menuBtn {
     display: none;
-  } */
+  }
   .headerNav {
     display: block;
   }

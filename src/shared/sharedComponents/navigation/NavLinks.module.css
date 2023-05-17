@@ -43,5 +43,13 @@
   .navLinks {
     flex-direction: row;
   }
+
+  .navLinks li {
+    margin: 0 0.5rem;
+  }
+
+
+  
+
  
 }
