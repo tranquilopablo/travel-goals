@@ -19,7 +19,7 @@ const MainNavigation = () => {
 
   return (
     <>
-      {sideMenuIsOpen && <Backdrop />}
+      {sideMenuIsOpen && <Backdrop onClick={closeSideMenu} />}
       <SideDrawer show={sideMenuIsOpen} onClick={closeSideMenu}>
         <nav className={css.sideMenuNav}>
           <NavLinks />
