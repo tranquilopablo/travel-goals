@@ -1,10 +1,12 @@
-import React from 'react'
+import React from 'react';
+import css from './SideDrawer.module.css';
 
 const SideDrawer = (props) => {
   return (
-    <aside className={css.sideDrawer} onClick={props.onClick}>
-    {props.children}
-  </aside>  )
-}
+    <aside className={css.SideDrawer} onClick={props.onClick}>
+      {props.children}
+    </aside>
+  );
+};
 
-export default SideDrawer
+export default SideDrawer;

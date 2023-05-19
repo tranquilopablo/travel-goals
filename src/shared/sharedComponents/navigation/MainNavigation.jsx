@@ -4,6 +4,8 @@ import css from './MainNavigation.module.css';
 import MainHeader from './MainHeader';
 import { Link } from 'react-router-dom';
 import NavLinks from './NavLinks';
+import Backdrop from '../uiElements/Backdrop';
+import SideDrawer from '../uiElements/SideDrawer';
 
 const MainNavigation = () => {
   const [sideMenuIsOpen, setSideMenuIsOpen] = useState(false);
@@ -17,11 +19,12 @@ const MainNavigation = () => {
 
   return (
     <>
-      {sideMenuIsOpen && (
+      {sideMenuIsOpen && <Backdrop />}
+      <SideDrawer show={sideMenuIsOpen} onClick={closeSideMenu}>
         <nav className={css.sideMenuNav}>
           <NavLinks />
         </nav>
-      )}
+      </SideDrawer>
       <MainHeader>
         <button className={css.menuBtn} onClick={openSideMenu}>
           <i
