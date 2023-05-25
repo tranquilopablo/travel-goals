@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import LoadingSpinner from '../shared/sharedComponents/uiElements/LoadingSpinner';
 
 const USERS = [
   {
@@ -33,7 +34,7 @@ const Users = () => {
     <>
       {isLoading && (
         <div className="center">
-          <p>ladowanie danych</p>
+          <LoadingSpinner />
         </div>
       )}
       {!isLoading && loadedUsers && <p>zaladowano uzytkownikow</p>}
