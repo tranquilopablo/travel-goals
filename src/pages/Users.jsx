@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import UsersList from '../components/UsersList';
 import LoadingSpinner from '../shared/sharedComponents/uiElements/LoadingSpinner';
 
 const USERS = [
@@ -18,8 +19,8 @@ const USERS = [
 
 const Users = () => {
   const [error, setError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadedUsers, setLoadedUsers] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadedUsers, setLoadedUsers] = useState(true);
 
   useEffect(() => {
     // here later adding function that fetches data
@@ -37,7 +38,7 @@ const Users = () => {
           <LoadingSpinner />
         </div>
       )}
-      {!isLoading && loadedUsers && <p>zaladowano uzytkownikow</p>}
+      {!isLoading && loadedUsers && <UsersList items={loadedUsers} />}
     </>
   );
 };
