@@ -18,9 +18,9 @@ const USERS = [
 ];
 
 const Users = () => {
-  const [error, setError] = useState(true);
+  const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [loadedUsers, setLoadedUsers] = useState(true);
+  const [loadedUsers, setLoadedUsers] = useState(false);
 
   useEffect(() => {
     // here later adding function that fetches data
