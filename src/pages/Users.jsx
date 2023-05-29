@@ -18,7 +18,7 @@ const USERS = [
 ];
 
 const Users = () => {
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [loadedUsers, setLoadedUsers] = useState(true);
 
@@ -31,14 +31,18 @@ const Users = () => {
     fetchUsers();
   }, []);
 
+  // create later here error modal in case error
+  // update later UserList component
+
   return (
     <>
+      {error && <p>Coś poszło nie tak!</p>}
       {isLoading && (
         <div className="center">
           <LoadingSpinner />
         </div>
       )}
-      {!isLoading && loadedUsers && <UsersList items={loadedUsers} />}
+      {!isLoading && !error && loadedUsers && <UsersList items={loadedUsers} />}
     </>
   );
 };
