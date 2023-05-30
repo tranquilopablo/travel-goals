@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import UsersList from '../components/UsersList';
+import ErrorModal from '../shared/sharedComponents/uiElements/ErrorModal';
 import LoadingSpinner from '../shared/sharedComponents/uiElements/LoadingSpinner';
 
 const USERS = [
@@ -34,9 +35,13 @@ const Users = () => {
   // create later here error modal in case error
   // update later UserList component
 
+  const errorHandler = () => {
+    setError(null);
+  };
+
   return (
     <>
-      {error && <p>Coś poszło nie tak!</p>}
+      <ErrorModal error={"bląd!"} onClear={errorHandler} />
       {isLoading && (
         <div className="center">
           <LoadingSpinner />
