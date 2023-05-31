@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from './Modal';
+import Button from './Button';
 
 const ErrorModal = (props) => {
   return (
@@ -7,7 +8,7 @@ const ErrorModal = (props) => {
       onCancel={props.onClear}
       header="Coś poszło nie tak!"
       show={!!props.error}
-      footer={<button onClick={props.onClear}>Okej</button>}
+      footer={<Button onClick={props.onClear}>Okej</Button>}
     >
       <p>{props.error}</p>
     </Modal>

@@ -19,3 +19,18 @@
 .modalHeader h2 {
   margin: 0.5rem;
 }
+
+.modalContent {
+  padding: 1rem 0.5rem;
+} 
+
+.modalFooter {
+  padding: 1rem 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .modal {
+    left: calc(50% - 20rem);
+    width: 40rem;
+  }
+}
