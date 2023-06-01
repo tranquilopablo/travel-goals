@@ -5,7 +5,9 @@ const UsersList = (props) => {
   return (
     <ul className={css.usersList}>
       {props.items.map((user, id) => (
-        <p key={id}>uzytkownik</p>
+        <p key={id} onClick={() => props.onClick(true)}>
+          uzytkownik
+        </p>
       ))}
     </ul>
   );

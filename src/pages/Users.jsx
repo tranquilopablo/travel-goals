@@ -41,13 +41,16 @@ const Users = () => {
 
   return (
     <>
-      <ErrorModal error={"bląd!"} onClear={errorHandler} />
+      {error && <ErrorModal error={error} onClear={errorHandler} />}
+
       {isLoading && (
         <div className="center">
           <LoadingSpinner />
         </div>
       )}
-      {!isLoading && !error && loadedUsers && <UsersList items={loadedUsers} />}
+      {!isLoading && !error && loadedUsers && (
+        <UsersList onClick={setError} items={loadedUsers} />
+      )}
     </>
   );
 };
