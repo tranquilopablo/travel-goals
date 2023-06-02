@@ -46,8 +46,8 @@ main {
 }
 
 /* CSS Transition for modal  */
-.modal-enter {
-  transform: translateY(-10rem);
+/* .modal-enter {
+  transform: translateY(-100rem);
   opacity: 0;
 }
 .modal-enter-active {
@@ -60,7 +60,25 @@ main {
   opacity: 1;
 }
 .modal-exit-active {
-  transform: translateY(-10rem);
+  transform: translateY(-100rem);
+  opacity: 0;
+  transition: all 200ms;
+} */
+/* CSS Transition for modal  */
+.modal-enter {
+  transform: translateX(-100%);
+}
+.modal-enter-active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: all 200ms;
+}
+.modal-exit {
+  transform: translateX(0%);
+  opacity: 1;
+}
+.modal-exit-active {
+  transform: translateX(-100%);
   opacity: 0;
   transition: all 200ms;
 }
