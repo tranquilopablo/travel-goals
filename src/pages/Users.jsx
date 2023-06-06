@@ -48,9 +48,7 @@ const Users = () => {
           <LoadingSpinner />
         </div>
       )}
-      {!isLoading && !error && loadedUsers && (
-        <UsersList onClick={setError} items={loadedUsers} />
-      )}
+      {!isLoading && loadedUsers && <UsersList items={loadedUsers} />}
     </>
   );
 };
