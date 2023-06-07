@@ -1,9 +1,18 @@
 .userItem {
-  background: red;
   margin: 1rem;
   width: 23rem;
   min-width: 18rem;
 }
+.userItem .userItemCard {
+    padding: 0;
+    position: relative;
+    margin: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow: hidden;
+    /* background: white; */
+  }
 .userItem img {
   display: block;
   border-radius: 50%;
