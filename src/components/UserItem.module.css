@@ -1,0 +1,14 @@
+.userItem {
+  background: red;
+  margin: 1rem;
+  width: 23rem;
+  min-width: 18rem;
+}
+.userItem img {
+  display: block;
+  border-radius: 50%;
+  object-fit: cover;
+  width: 4rem;
+  height: 4rem;
+  margin-right: 1rem;
+}
