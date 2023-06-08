@@ -1,13 +1,14 @@
 import React from 'react';
+import Card from '../shared/sharedComponents/uiElements/Card';
 import UserItem from './UserItem';
 import css from './UsersList.module.css';
 
 const UsersList = (props) => {
   if (props.items.length === 0) {
     return (
-      <div className={` center  ${css.card} `}>
-        <h2>Nie znaleziono użytkowników</h2>
-      </div>
+      <Card className={css.noUsers}>
+        <h2>Nie znaleziono użytkowników.</h2>
+      </Card>
     );
   }
 

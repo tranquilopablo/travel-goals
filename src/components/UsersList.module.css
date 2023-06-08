@@ -1,5 +1,4 @@
 .usersList {
-  background-color: gray;
   list-style: none;
   width: 90%;
   margin: 6rem auto 0 auto;
@@ -16,5 +15,4 @@
   border-radius: 6px;
   padding: 1rem;
   overflow: hidden;
-  /* background: white; */
 }

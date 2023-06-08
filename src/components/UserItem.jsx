@@ -1,12 +1,13 @@
 import React from 'react';
 import css from './UserItem.module.css';
 import { Link } from 'react-router-dom';
+import Card from '../shared/sharedComponents/uiElements/Card';
 
 
 const UserItem = (props) => {
   return (
     <li className={css.userItem}>
-       <div className={css.userItemCard}>
+       <Card className={css.userItemCard}>
         <Link to={`${props.id}/miejsca`}>
           <div className={css.userImage}>
             <img src={`${props.image}`} alt={props.name} />
@@ -16,7 +17,7 @@ const UserItem = (props) => {
             <h3>{`Liczba miejsc:  ${props.placeCount} `}</h3>
           </div>
         </Link>
-      </div>
+      </Card>
     </li>
   );
 };
