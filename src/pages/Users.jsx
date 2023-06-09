@@ -32,8 +32,6 @@ const Users = () => {
     fetchUsers();
   }, []);
 
-  // create later here error modal in case error
-  // update later UserList component
 
   const errorHandler = () => {
     setError(null);

@@ -1,9 +1,7 @@
 .card {
-    position: relative;
-    margin: 0 auto 2rem auto;
-    margin: 2rem;
-    box-shadow: 0 2px 8px 4px rgba(0, 0, 0, 0.26);
-    border-radius: 8px;
-    /* padding: 1rem; */
-    overflow: hidden;
-  }
+  position: relative;
+  box-shadow: 0 2px 8px 4px rgba(0, 0, 0, 0.26);
+  border-radius: 8px;
+  /* padding: 1rem; */
+  overflow: hidden;
+}
