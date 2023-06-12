@@ -6,9 +6,9 @@ import css from './UsersList.module.css';
 const UsersList = (props) => {
   if (props.items.length === 0) {
     return (
-      // <Card className={css.noUsers}>
-      //   <h2>Nie znaleziono użytkowników.</h2>
-      // </Card>
+      <Card className={css.noUsers}>
+        <h2>Nie znaleziono użytkowników.</h2>
+      </Card>
     );
   }
 
