@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
+
 import ErrorModal from '../shared/sharedComponents/uiElements/ErrorModal';
 import LoadingSpinner from '../shared/sharedComponents/uiElements/LoadingSpinner';
+import PlacesHeader from '../shared/sharedComponents/uiElements/PlacesHeader';
 
 const DUMMY_PLACES = [
   {
@@ -36,13 +38,21 @@ export default function UserPlaces() {
   const [loadedPlaces, setLoadedPlaces] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
-
   useEffect(() => {
     setLoadedPlaces(DUMMY_PLACES);
   }, []);
 
   const errorHandler = () => {
     setError(null);
+  };
+
+  // napisac pozniej funkcje do selekcji miejsc!
+  const onDoneHandle = () => {
+    console.log('zrobione');
+  };
+
+  const onUndoneHandle = () => {
+    console.log('do zrobienia');
   };
 
   return (
@@ -53,7 +63,14 @@ export default function UserPlaces() {
           <LoadingSpinner />
         </div>
       )}
-      <div>UserPlacesss</div>
+      {!isLoading && loadedPlaces && (
+        <div>
+          <PlacesHeader
+            onDoneHandle={onDoneHandle}
+            onUndoneHandle={onUndoneHandle}
+          />
+        </div>
+      )}
     </>
   );
 }
