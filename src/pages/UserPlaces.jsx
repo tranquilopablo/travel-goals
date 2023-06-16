@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import PlaceList from '../components/PlaceList';
 
 import ErrorModal from '../shared/sharedComponents/uiElements/ErrorModal';
 import LoadingSpinner from '../shared/sharedComponents/uiElements/LoadingSpinner';
@@ -69,6 +70,7 @@ export default function UserPlaces() {
             onDoneHandle={onDoneHandle}
             onUndoneHandle={onUndoneHandle}
           />
+          <PlaceList items={loadedPlaces} />
         </div>
       )}
     </>
