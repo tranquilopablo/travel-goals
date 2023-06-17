@@ -1,8 +1,7 @@
-
 const PlaceItem = (props) => {
   return (
-    <div>PlaceItem</div>
-  )
-}
+    <div>{props.place}</div>
+  );
+};
 
-export default PlaceItem
+export default PlaceItem;
