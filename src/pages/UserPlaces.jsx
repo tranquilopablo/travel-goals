@@ -32,6 +32,7 @@ const DUMMY_PLACES = [
     },
     creator: 'u2',
   },
+ 
 ];
 
 export default function UserPlaces() {
