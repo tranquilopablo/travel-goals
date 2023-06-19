@@ -10,7 +10,7 @@ const DUMMY_PLACES = [
     id: 'p1',
     title: 'Kościół Mariacki',
     description: 'Jedna z najsłyniejszych polskich kaplic!',
-    imageUrl:
+    image:
       'https://t3.gstatic.com/images?q=tbn:ANd9GcTsYfPmGJlhdYYoimizj9KjzYltxPMxmA3fOq7VYtpCUFdwFR8W',
     address: 'plac Mariacki 5, 31-042 Kraków, Polska',
     location: {
@@ -23,7 +23,7 @@ const DUMMY_PLACES = [
     id: 'p2',
     title: 'Zamek w Malborku',
     description: 'XIV-wieczny zamek krzyżacki',
-    imageUrl:
+    image:
       'https://lh5.googleusercontent.com/p/AF1QipPuhFVh2XVC7812NswdMu8pog2GLGSvfaQVtsM=s544-k-no',
     address: 'Starościńska 1, 82-200 Malbork',
     location: {
@@ -32,7 +32,6 @@ const DUMMY_PLACES = [
     },
     creator: 'u2',
   },
- 
 ];
 
 export default function UserPlaces() {

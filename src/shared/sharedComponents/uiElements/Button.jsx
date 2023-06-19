@@ -5,14 +5,21 @@ import css from './Button.module.css';
 const Button = (props) => {
   if (props.to) {
     return (
-      <Link className={css.button} to={props.to}>
+      <Link
+        className={`${css.button} ${props.inverse && css.buttonInverse} ${
+          props.danger && css.buttonDanger
+        } `}
+        to={props.to}
+      >
         {props.children}
       </Link>
     );
   }
   return (
     <button
-      className={css.button}
+      className={`${css.button} ${props.inverse && css.buttonInverse} ${
+        props.danger && css.buttonDanger
+      } `}
       type={props.type}
       onClick={props.onClick}
       disabled={props.disabled}

@@ -23,3 +23,20 @@
   border-color: #ccc;
   cursor: not-allowed;
 }
+
+.buttonInverse {
+  background: transparent;
+  color: #ff0055;
+}
+.buttonInverse:hover {
+  color: white;
+  background: #ff0055;
+}
+.buttonDanger {
+  background: #830000;
+  border-color: #830000;
+}
+.buttonDanger:hover {
+  background: #f34343;
+  border-color: #f34343;
+}

@@ -1,3 +1,27 @@
+.placeItem {
+  margin: 3rem 0;
+}
+.placeItemContent {
+  padding: 0;
+  background: white;
+}
+
+.itemImage {
+  width: 100%;
+  height: 12.5rem;
+}
+.itemImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.actions {
+  padding: 1rem;
+  text-align: center;
+  border-top: 1px solid #ccc;
+}
+
 .mapContainer {
   height: 18rem;
   width: 100%;

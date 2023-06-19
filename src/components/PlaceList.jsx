@@ -19,7 +19,12 @@ const PlaceList = (props) => {
   return (
     <ul className={css.placeList}>
       {props.items.map((place) => (
-        <PlaceItem key={place.id} place={place.title}/>
+        <PlaceItem
+          key={place.id}
+          id={place.id}
+          image={place.image}
+          title={place.title}
+        />
       ))}
     </ul>
   );
