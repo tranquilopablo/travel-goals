@@ -18,6 +18,8 @@ const DUMMY_PLACES = [
       lng: 19.9368154,
     },
     creator: 'u1',
+    done: true,
+    priority: 2,
   },
   {
     id: 'p2',
@@ -31,6 +33,8 @@ const DUMMY_PLACES = [
       lng: 19.0280127,
     },
     creator: 'u2',
+    done: false,
+    priority: 5,
   },
 ];
 

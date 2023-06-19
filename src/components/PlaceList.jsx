@@ -24,6 +24,10 @@ const PlaceList = (props) => {
           id={place.id}
           image={place.image}
           title={place.title}
+          description={place.description}
+          address={place.address}
+          priority={place.priority}
+          done={place.done}
         />
       ))}
     </ul>
