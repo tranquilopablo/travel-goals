@@ -5,6 +5,10 @@
   padding: 0;
   background: white;
 }
+.itemInfo {
+  padding: 1rem;
+  text-align: center;
+}
 
 .itemImage {
   width: 100%;
@@ -16,10 +20,61 @@
   object-fit: cover;
 }
 
+.itemExtra {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.itemExtra p {
+  margin: 0 1rem;
+}
+.itemExtra p:first-child,
+.itemExtra p:nth-child(2) {
+  margin: 0 0rem;
+}
+
+.bolded {
+  font-weight: bold;
+  margin-left: 0.5rem;
+}
+.boldedCheck {
+  cursor: pointer;
+}
+
+.boldedCheck .faList,
+.boldedCheck .faCheck {
+  font-size: 1.2rem;
+}
+
+.boldedCheckStatus .faList,
+.boldedCheckStatus .faCheck {
+  font-weight: bold;
+  margin-right: auto;
+  font-size: 2rem;
+}
+
+.boldedCheckStatus .faList {
+  color: red;
+}
+.boldedCheckStatus .faCheck {
+  color: green;
+}
+
+.itemInfo h2,
+.itemInfo h3,
+.itemInfo p {
+  margin: 0 0 0.5rem 0;
+}
+
 .actions {
   padding: 1rem;
   text-align: center;
   border-top: 1px solid #ccc;
+}
+
+.actions button,
+.actions a {
+  margin: 0.5rem;
 }
 
 .mapContainer {
