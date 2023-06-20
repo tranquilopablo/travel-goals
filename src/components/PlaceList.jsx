@@ -28,6 +28,8 @@ const PlaceList = (props) => {
           address={place.address}
           priority={place.priority}
           done={place.done}
+          coordinates={place.location}
+
         />
       ))}
     </ul>

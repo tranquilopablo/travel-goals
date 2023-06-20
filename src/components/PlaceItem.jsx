@@ -3,6 +3,7 @@ import Button from '../shared/sharedComponents/uiElements/Button';
 import Card from '../shared/sharedComponents/uiElements/Card';
 import ErrorModal from '../shared/sharedComponents/uiElements/ErrorModal';
 import LoadingSpinner from '../shared/sharedComponents/uiElements/LoadingSpinner';
+import Map from '../shared/sharedComponents/uiElements/Map';
 import Modal from '../shared/sharedComponents/uiElements/Modal';
 import css from './PlaceItem.module.css';
 
@@ -40,6 +41,8 @@ const PlaceItem = (props) => {
     console.log(`usunięto miejsce!`);
   };
 
+  console.log(props.coordinates);
+
   return (
     <>
       <ErrorModal error={error} onClear={clearError} />
@@ -52,7 +55,7 @@ const PlaceItem = (props) => {
         footer={<Button onClick={closeMapHandler}>ZAMKNIJ</Button>}
       >
         <div className={css.mapContainer}>
-          <p>mapa</p>
+          <Map center={props.coordinates} zoom={8} />
         </div>
       </Modal>
       <Modal
