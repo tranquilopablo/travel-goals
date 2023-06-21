@@ -38,10 +38,9 @@ const PlaceItem = (props) => {
 
   // create function that delate place
   const confirmDeleteHandler = async () => {
+    setShowConfirmModal(false);
     console.log(`usunięto miejsce!`);
   };
-
-  console.log(props.coordinates);
 
   return (
     <>
