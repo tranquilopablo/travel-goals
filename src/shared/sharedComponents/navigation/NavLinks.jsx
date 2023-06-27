@@ -1,8 +1,14 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import css from './NavLinks.module.css';
 
 const NavLinks = () => {
+  const [logged, setLogged] = useState(true);
+
+  const logout = () => {
+    // dodac funkcję do wylogowania!
+    console.log('wylogowałeś się!');
+  };
   return (
     <ul className={css.navLinks}>
       <li>
@@ -22,8 +28,19 @@ const NavLinks = () => {
       </li>
 
       <li>
-        <button >WYLOGUJ</button>
+        <button onClick={logout}>WYLOGUJ</button>
       </li>
+      {logged && (
+        <div className={css.avatar}>
+          <Link to={'/ustawienia'}>
+            <img
+              className={css.image}
+              src={`https://images.pexels.com/photos/4095246/pexels-photo-4095246.jpeg`}
+              alt=""
+            />
+          </Link>
+        </div>
+      )}
     </ul>
   );
 };
