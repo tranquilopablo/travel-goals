@@ -1,5 +1,12 @@
-// import React from 'react'
+import React, { useState } from 'react';
+import Card from '../shared/sharedComponents/uiElements/Card';
 
 export default function Login() {
-  return <div>Login</div>;
+  const [isLoginMode, setIsLoginMode] = useState(true);
+
+  return (
+    <Card>
+      <h2>LOGIN WYMAGANY</h2>
+    </Card>
+  );
 }
