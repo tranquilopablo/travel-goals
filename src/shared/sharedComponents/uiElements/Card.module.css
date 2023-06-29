@@ -5,3 +5,12 @@
   /* padding: 1rem; */
   overflow: hidden;
 }
+
+.login {
+  width: 90%;
+  max-width: 25rem;
+  margin: 7rem auto;
+  text-align: center;
+  background-color: rgb(233, 224, 224);
+
+}
