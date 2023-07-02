@@ -34,9 +34,9 @@ const Login = () => {
         <hr />
         <form onSubmit={authsubmitHandler}>
           {!isLoginMode && <input />}
-          {!isLoginMode && (
+          {/* {!isLoginMode && (
             <img src="https://images.pexels.com/photos/4095246/pexels-photo-4095246.jpeg" />
-          )}
+          )} */}
           <input />
           <input />
           <Button type="submit">
