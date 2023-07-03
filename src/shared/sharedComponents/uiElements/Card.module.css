@@ -2,7 +2,6 @@
   position: relative;
   box-shadow: 0 2px 8px 4px rgba(0, 0, 0, 0.26);
   border-radius: 8px;
-  /* padding: 1rem; */
   overflow: hidden;
 }
 
@@ -11,6 +10,6 @@
   max-width: 25rem;
   margin: 7rem auto;
   text-align: center;
-  background-color: rgb(233, 224, 224);
-
+  background-color: rgb(233, 224, 224);  
+  padding: 1rem;
 }
