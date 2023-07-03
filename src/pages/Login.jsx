@@ -31,7 +31,7 @@ const Login = () => {
       lastName: '',
       email: '',
     },
-    validationSchema: { signupSchema },
+    validationSchema: signupSchema,
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
       console.log('zalogowano!');
@@ -54,7 +54,7 @@ const Login = () => {
         {isLoading && <LoadingSpinner asOverlay />}
         <h2>LOGIN WYMAGANY</h2>
         <hr />
-        {/* <form onSubmit={formik.handleSubmit}>
+        <form onSubmit={formik.handleSubmit}>
           <label htmlFor="firstName">First Name</label>
           <input
             id="firstName"
@@ -94,7 +94,7 @@ const Login = () => {
           ) : null}
 
           <button type="submit">Submit</button>
-        </form> */}
+        </form>
         <Button inverse onClick={switchModeHandler}>
           PRZEJDŻ DO {isLoginMode ? 'REJESTRACJI' : 'LOGOWANIA'}
         </Button>
