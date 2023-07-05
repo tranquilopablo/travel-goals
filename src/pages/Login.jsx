@@ -7,6 +7,7 @@ import LoadingSpinner from '../shared/sharedComponents/uiElements/LoadingSpinner
 import css from './Login.module.css';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import ImageUpload from '../shared/sharedComponents/uiElements/ImageUpload';
 
 const Login = () => {
   const [isLoginMode, setIsLoginMode] = useState(true);
@@ -17,14 +18,23 @@ const Login = () => {
     // firstName: Yup.string().min(2, 'Minimum 2 znaki').required('Wymagane'),
     password: Yup.string()
       .min(6, 'Podaj hasło zawierające co najmniej 6 znaków.')
-      .required('Wymagane').matches(/[0-9]/, "Co najmniej jedna cyfra"),
+      .required('Wymagane')
+      .matches(/[0-9]/, 'Co najmniej jedna cyfra'),
     // lastName: Yup.string().min(2, 'Minimum 2 znaki').required('Wymagane'),
     email: Yup.string()
       .email('Podaj poprawny adres email')
       .required('Wymagane'),
   });
 
-  const formik = useFormik({
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    handleReset,
+    handleSubmit,
+  } = useFormik({
     initialValues: {
       // firstName: '',
       password: '',
@@ -32,10 +42,10 @@ const Login = () => {
       email: '',
     },
     validationSchema: validateSchema,
-    onSubmit: (values, actions) => {
+    onSubmit: (values) => {
       // alert(JSON.stringify(values, null, 2));
       console.log('zalogowano!', values);
-      actions.resetForm()
+      handleReset();
     },
   });
 
@@ -55,55 +65,54 @@ const Login = () => {
         {isLoading && <LoadingSpinner asOverlay />}
         <h2>LOGIN WYMAGANY</h2>
         <hr />
-        <form onSubmit={formik.handleSubmit}  >
+        <form onSubmit={handleSubmit}>
+          {!isLoginMode && (
+            <>
+              <label htmlFor="firstName">Nazwa użytkownika</label>
+              <input
+                id="firstName"
+                name="firstName"
+                type="text"
+                onChange={handleChange}
+                value={values.firstName}
+                onBlur={handleBlur}
+              />
+              {touched.firstName && errors.firstName ? (
+                <p>{errors.firstName}</p>
+              ) : null}
+            </>
+          )}
+          {!isLoginMode && (
+            <ImageUpload
+              center
+              id="image"
+              errorText=""
+            />
+          )}
           <label htmlFor="email">E-Mail</label>
           <input
             id="email"
             name="email"
             type="email"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.email}
           />
-          {formik.touched.email && formik.errors.email ? (
-            <p>{formik.errors.email}</p>
-          ) : null}
-          {/* <label htmlFor="firstName">Nazwa użytkownika</label>
-          <input
-            id="firstName"
-            name="firstName"
-            type="text"
-            onChange={formik.handleChange}
-            value={formik.values.firstName}
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.firstName && formik.errors.firstName ? (
-            <p>{formik.errors.firstName}</p>
-          ) : null} */}
+          {touched.email && errors.email ? <p>{errors.email}</p> : null}
+
           <label htmlFor="password">Hasło</label>
           <input
             id="password"
             name="password"
             type="password"
-            onChange={formik.handleChange}
-            value={formik.values.password}
-            onBlur={formik.handleBlur}
+            onChange={handleChange}
+            value={values.password}
+            onBlur={handleBlur}
           />
-          {formik.touched.password && formik.errors.password ? (
-            <p>{formik.errors.password}</p>
+          {touched.password && errors.password ? (
+            <p>{errors.password}</p>
           ) : null}
-          {/* <label htmlFor="lastName">Last Name</label>
-          <input
-            id="lastName"
-            name="lastName"
-            type="text"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.lastName}
-          />
-          {formik.touched.lastName && formik.errors.lastName ? (
-            <p>{formik.errors.lastName}</p>
-          ) : null} */}
+          
 
           <button type="submit">
             {isLoginMode ? 'ZALOGUJ' : 'REJESTRACJA'}
