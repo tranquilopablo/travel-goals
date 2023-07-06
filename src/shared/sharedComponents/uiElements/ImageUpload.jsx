@@ -15,11 +15,15 @@ const ImageUpload = (props) => {
     if (!file) {
       return;
     }
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+
     setPreviewUrl(file);
   }, [file]);
 
   const pickedHandler = (event) => {
     setFile(event.target.files[0]);
+    console.log(event.target.files[0]);
   };
 
   const pickImageHandler = () => {
