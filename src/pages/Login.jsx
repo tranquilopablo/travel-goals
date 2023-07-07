@@ -30,6 +30,7 @@ const Login = () => {
     values,
     errors,
     touched,
+    isValid,
     handleBlur,
     handleChange,
     handleReset,
@@ -65,7 +66,7 @@ const Login = () => {
         {isLoading && <LoadingSpinner asOverlay />}
         <h2>LOGIN WYMAGANY</h2>
         <hr />
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={css.formCard}>
           {!isLoginMode && (
             <>
               <label htmlFor="firstName">Nazwa użytkownika</label>
@@ -82,13 +83,7 @@ const Login = () => {
               ) : null}
             </>
           )}
-          {!isLoginMode && (
-            <ImageUpload
-              center
-              id="image"
-              errorText=""
-            />
-          )}
+          {!isLoginMode && <ImageUpload center id="image" errorText="" />}
           <label htmlFor="email">E-Mail</label>
           <input
             id="email"
@@ -112,9 +107,7 @@ const Login = () => {
           {touched.password && errors.password ? (
             <p>{errors.password}</p>
           ) : null}
-          
-
-          <button type="submit">
+          <button type="submit" className={`${!isValid} && ${css.invalid} `}>
             {isLoginMode ? 'ZALOGUJ' : 'REJESTRACJA'}
           </button>
         </form>

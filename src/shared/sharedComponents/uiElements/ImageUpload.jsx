@@ -16,9 +16,10 @@ const ImageUpload = (props) => {
       return;
     }
     const fileReader = new FileReader();
+    fileReader.onload = () => {
+      setPreviewUrl(fileReader.result);
+    };
     fileReader.readAsDataURL(file);
-
-    setPreviewUrl(file);
   }, [file]);
 
   const pickedHandler = (event) => {

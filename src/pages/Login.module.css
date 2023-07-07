@@ -1,9 +1,41 @@
-
- form {
+.formCard {
   margin-bottom: 1rem;
 }
 
+.formCard label,
+.formCard input,
+.formCard textarea {
+  display: block;
+}
+
+.formCard label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.formCard input,
+.formCard textarea {
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  font: inherit;
+  border: 1px solid #ccc;
+  background: #f8f8f8;
+  padding: 0.15rem 0.25rem;
+}
+
+.formCard input:focus,
+.formCard textarea:focus {
+  outline: none;
+  background: #ebebeb;
+  border-color: #510077;
+}
 
 form p {
   color: red;
+}
+
+
+.invalid {
+  background-color: red;
 }
