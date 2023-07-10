@@ -15,12 +15,11 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const validateSchema = Yup.object().shape({
-    // firstName: Yup.string().min(2, 'Minimum 2 znaki').required('Wymagane'),
+    firstName: Yup.string().min(2, 'Minimum 2 znaki').required('Wymagane'),
     password: Yup.string()
       .min(6, 'Podaj hasło zawierające co najmniej 6 znaków.')
       .required('Wymagane')
       .matches(/[0-9]/, 'Co najmniej jedna cyfra'),
-    // lastName: Yup.string().min(2, 'Minimum 2 znaki').required('Wymagane'),
     email: Yup.string()
       .email('Podaj poprawny adres email')
       .required('Wymagane'),
@@ -107,9 +106,9 @@ const Login = () => {
           {touched.password && errors.password ? (
             <p>{errors.password}</p>
           ) : null}
-          <button type="submit" className={`${!isValid} && ${css.invalid} `}>
+          <Button type="submit" disabled={isValid}>
             {isLoginMode ? 'ZALOGUJ' : 'REJESTRACJA'}
-          </button>
+          </Button>
         </form>
         <Button inverse onClick={switchModeHandler}>
           PRZEJDŻ DO {isLoginMode ? 'REJESTRACJI' : 'LOGOWANIA'}

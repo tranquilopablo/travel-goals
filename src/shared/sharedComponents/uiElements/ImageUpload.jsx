@@ -4,9 +4,8 @@ import Button from './Button';
 
 const ImageUpload = (props) => {
   const [file, setFile] = useState();
-  const [previewUrl, setPreviewUrl] = useState(
-    'https://images.pexels.com/photos/4095246/pexels-photo-4095246.jpeg'
-  );
+  const [previewUrl, setPreviewUrl] = useState();
+  // 'https://images.pexels.com/photos/4095246/pexels-photo-4095246.jpeg';
   const [isValid, setIsValid] = useState(false);
 
   const filePickerRef = useRef();
@@ -40,15 +39,15 @@ const ImageUpload = (props) => {
         accept=".jpg,.png,.jpeg"
         onChange={pickedHandler}
       />
-      <div>
-        <div>
-          <img src={previewUrl} alt="Podgląd" />
-          <p>Proszę wybierz zdjęcie.</p>
+      <div className={css['image-upload-center']}>
+        <div className={css['image-upload__preview']}>
+          {previewUrl && <img src={previewUrl} alt="Podgląd" />}
+          {!previewUrl && <p>Proszę wybierz zdjęcie.</p>}
         </div>
+        <Button type="button" onClick={pickImageHandler}>
+          WYBIERZ ZDJĘCIE
+        </Button>
       </div>
-      <Button type="button" onClick={pickImageHandler}>
-        WYBIERZ ZDJĘCIE
-      </Button>
     </div>
   );
 };
