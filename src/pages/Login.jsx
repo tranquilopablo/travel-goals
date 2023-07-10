@@ -48,6 +48,7 @@ const Login = () => {
       handleReset();
     },
   });
+console.log(errors);
 
   const clearError = () => {
     setError(null);
@@ -106,7 +107,7 @@ const Login = () => {
           {touched.password && errors.password ? (
             <p>{errors.password}</p>
           ) : null}
-          <Button type="submit" disabled={isValid}>
+          <Button type="submit" disabled={errors}>
             {isLoginMode ? 'ZALOGUJ' : 'REJESTRACJA'}
           </Button>
         </form>
