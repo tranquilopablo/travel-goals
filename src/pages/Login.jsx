@@ -15,7 +15,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const validateSchema = Yup.object().shape({
-    firstName: Yup.string().min(2, 'Minimum 2 znaki').required('Wymagane'),
+    // firstName: Yup.string().min(2, 'Minimum 2 znaki').required('Wymagane'),
     password: Yup.string()
       .min(6, 'Podaj hasło zawierające co najmniej 6 znaków.')
       .required('Wymagane')
@@ -30,6 +30,7 @@ const Login = () => {
     errors,
     touched,
     isValid,
+    dirty,
     handleBlur,
     handleChange,
     handleReset,
@@ -48,7 +49,6 @@ const Login = () => {
       handleReset();
     },
   });
-console.log(errors);
 
   const clearError = () => {
     setError(null);
@@ -58,6 +58,8 @@ console.log(errors);
     setIsLoginMode((prevMode) => !prevMode);
   };
 
+  console.log(errors);
+
   /// uzyc tutaj formik
   return (
     <>
@@ -66,9 +68,9 @@ console.log(errors);
         {isLoading && <LoadingSpinner asOverlay />}
         <h2>LOGIN WYMAGANY</h2>
         <hr />
-        <form onSubmit={handleSubmit} className={css.formCard}>
+        <form onSubmit={handleSubmit}>
           {!isLoginMode && (
-            <>
+            <div className={css.formControl}>
               <label htmlFor="firstName">Nazwa użytkownika</label>
               <input
                 id="firstName"
@@ -81,33 +83,41 @@ console.log(errors);
               {touched.firstName && errors.firstName ? (
                 <p>{errors.firstName}</p>
               ) : null}
-            </>
+            </div>
           )}
           {!isLoginMode && <ImageUpload center id="image" errorText="" />}
-          <label htmlFor="email">E-Mail</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.email}
-          />
-          {touched.email && errors.email ? <p>{errors.email}</p> : null}
+          <div
+            className={`${css.formControl} ${
+              !(isValid && dirty) && css['formControl-invalid']
+            } `}
+          >
+            <label htmlFor="email">E-Mail</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.email}
+            />
+            {touched.email && errors.email ? <p>{errors.email}</p> : null}
+          </div>
+          <div className={css.formControl}>
+            <label htmlFor="password">Hasło</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              onChange={handleChange}
+              value={values.password}
+              onBlur={handleBlur}
+            />
+            {touched.password && errors.password ? (
+              <p>{errors.password}</p>
+            ) : null}
+          </div>
 
-          <label htmlFor="password">Hasło</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            onChange={handleChange}
-            value={values.password}
-            onBlur={handleBlur}
-          />
-          {touched.password && errors.password ? (
-            <p>{errors.password}</p>
-          ) : null}
-          <Button type="submit" disabled={errors}>
+          <Button type="submit" disabled={!(isValid && dirty)}>
             {isLoginMode ? 'ZALOGUJ' : 'REJESTRACJA'}
           </Button>
         </form>
