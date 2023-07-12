@@ -8,22 +8,16 @@ import css from './Login.module.css';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import ImageUpload from '../shared/sharedComponents/uiElements/ImageUpload';
+import {
+  loginValidateSchema,
+  registrationValidateSchema,
+} from '../shared/util/validationSchemas';
 
 const Login = () => {
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const validateSchema = Yup.object().shape({
-    // firstName: Yup.string().min(2, 'Minimum 2 znaki').required('Wymagane'),
-    password: Yup.string()
-      .min(6, 'Podaj hasło zawierające co najmniej 6 znaków.')
-      .required('Wymagane')
-      .matches(/[0-9]/, 'Co najmniej jedna cyfra'),
-    email: Yup.string()
-      .email('Podaj poprawny adres email')
-      .required('Wymagane'),
-  });
 
   const {
     values,
@@ -42,7 +36,7 @@ const Login = () => {
       // lastName: '',
       email: '',
     },
-    validationSchema: validateSchema,
+    validationSchema: loginValidateSchema,
     onSubmit: (values) => {
       // alert(JSON.stringify(values, null, 2));
       console.log('zalogowano!', values);
@@ -70,7 +64,13 @@ const Login = () => {
         <hr />
         <form onSubmit={handleSubmit}>
           {!isLoginMode && (
-            <div className={css.formControl}>
+            <div
+              className={`${css.formControl} ${
+                touched.firstName &&
+                errors.firstName &&
+                css['formControl-invalid']
+              }  `}
+            >
               <label htmlFor="firstName">Nazwa użytkownika</label>
               <input
                 id="firstName"
@@ -88,8 +88,8 @@ const Login = () => {
           {!isLoginMode && <ImageUpload center id="image" errorText="" />}
           <div
             className={`${css.formControl} ${
-              !(isValid && dirty) && css['formControl-invalid']
-            } `}
+              touched.email && errors.email && css['formControl-invalid']
+            }  `}
           >
             <label htmlFor="email">E-Mail</label>
             <input
@@ -102,7 +102,11 @@ const Login = () => {
             />
             {touched.email && errors.email ? <p>{errors.email}</p> : null}
           </div>
-          <div className={css.formControl}>
+          <div
+            className={`${css.formControl} ${
+              touched.password && errors.password && css['formControl-invalid']
+            }  `}
+          >
             <label htmlFor="password">Hasło</label>
             <input
               id="password"
