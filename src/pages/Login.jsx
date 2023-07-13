@@ -12,12 +12,12 @@ import {
   loginValidateSchema,
   registrationValidateSchema,
 } from '../shared/util/validationSchemas';
+import Input from '../shared/sharedComponents/uiElements/Input';
 
 const Login = () => {
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
 
   const {
     values,
@@ -79,6 +79,7 @@ const Login = () => {
                 onChange={handleChange}
                 value={values.firstName}
                 onBlur={handleBlur}
+                label="Nazwa użytkownika"
               />
               {touched.firstName && errors.firstName ? (
                 <p>{errors.firstName}</p>
@@ -86,7 +87,7 @@ const Login = () => {
             </div>
           )}
           {!isLoginMode && <ImageUpload center id="image" errorText="" />}
-          <div
+          {/* <div
             className={`${css.formControl} ${
               touched.email && errors.email && css['formControl-invalid']
             }  `}
@@ -106,20 +107,28 @@ const Login = () => {
             className={`${css.formControl} ${
               touched.password && errors.password && css['formControl-invalid']
             }  `}
-          >
-            <label htmlFor="password">Hasło</label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              onChange={handleChange}
-              value={values.password}
-              onBlur={handleBlur}
-            />
-            {touched.password && errors.password ? (
-              <p>{errors.password}</p>
-            ) : null}
-          </div>
+          > */}
+          <Input
+            element="input"
+            id="email"
+            name="email"
+            type="email"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.email}
+            label="E-Mail"
+          />
+
+          <Input
+            element="input"
+            id="password"
+            name="password"
+            type="password"
+            onChange={handleChange}
+            value={values.password}
+            onBlur={handleBlur}
+            label="Hasło"
+          />
 
           <Button type="submit" disabled={!(isValid && dirty)}>
             {isLoginMode ? 'ZALOGUJ' : 'REJESTRACJA'}

@@ -23,3 +23,5 @@ export const registrationValidateSchema = Yup.object().shape({
   password: passwordSchema,
   email: emailSchema,
 });
+
+
