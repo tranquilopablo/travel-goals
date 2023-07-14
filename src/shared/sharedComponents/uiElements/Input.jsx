@@ -27,6 +27,7 @@ const Input = (props) => {
     <div className={css.formControl}>
       <label htmlFor={props.id}>{props.label}</label>
       {element}
+      {props.touched && props.errors ? <p>{props.errors}</p> : null}
     </div>
   );
 };

@@ -117,7 +117,10 @@ const Login = () => {
             onBlur={handleBlur}
             value={values.email}
             label="E-Mail"
+            touched={touched.email}
+            errors={errors.email}
           />
+          {/* {touched.email && errors.email ? <p>{errors.email}</p> : null} */}
 
           <Input
             element="input"
@@ -128,7 +131,12 @@ const Login = () => {
             value={values.password}
             onBlur={handleBlur}
             label="Hasło"
+            touched={touched.password}
+            errors={errors.password}
           />
+          {/* {touched.password && errors.password ? (
+            <p>{errors.password}</p>
+          ) : null} */}
 
           <Button type="submit" disabled={!(isValid && dirty)}>
             {isLoginMode ? 'ZALOGUJ' : 'REJESTRACJA'}
