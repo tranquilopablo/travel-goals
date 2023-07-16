@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import Button from '../shared/sharedComponents/uiElements/Button';
 import Card from '../shared/sharedComponents/uiElements/Card';
 import ErrorModal from '../shared/sharedComponents/uiElements/ErrorModal';
-// import Input from '../shared/sharedComponents/uiElements/Input';
 import LoadingSpinner from '../shared/sharedComponents/uiElements/LoadingSpinner';
-import css from './Login.module.css';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import ImageUpload from '../shared/sharedComponents/uiElements/ImageUpload';
@@ -64,50 +62,20 @@ const Login = () => {
         <hr />
         <form onSubmit={handleSubmit}>
           {!isLoginMode && (
-            <div
-              className={`${css.formControl} ${
-                touched.firstName &&
-                errors.firstName &&
-                css['formControl-invalid']
-              }  `}
-            >
-              <label htmlFor="firstName">Nazwa użytkownika</label>
-              <input
-                id="firstName"
-                name="firstName"
-                type="text"
-                onChange={handleChange}
-                value={values.firstName}
-                onBlur={handleBlur}
-                label="Nazwa użytkownika"
-              />
-              {touched.firstName && errors.firstName ? (
-                <p>{errors.firstName}</p>
-              ) : null}
-            </div>
-          )}
-          {!isLoginMode && <ImageUpload center id="image" errorText="" />}
-          {/* <div
-            className={`${css.formControl} ${
-              touched.email && errors.email && css['formControl-invalid']
-            }  `}
-          >
-            <label htmlFor="email">E-Mail</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
+            <Input
+              element="input"
+              id="firstName"
+              name="firstName"
+              type="text"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.email}
+              value={values.firstName}
+              label="Nazwa użytkownika"
+              touched={touched.firstName}
+              errors={errors.firstName}
             />
-            {touched.email && errors.email ? <p>{errors.email}</p> : null}
-          </div>
-          <div
-            className={`${css.formControl} ${
-              touched.password && errors.password && css['formControl-invalid']
-            }  `}
-          > */}
+          )}
+          {!isLoginMode && <ImageUpload center id="image" errorText="" />}
           <Input
             element="input"
             id="email"
@@ -120,7 +88,6 @@ const Login = () => {
             touched={touched.email}
             errors={errors.email}
           />
-          {/* {touched.email && errors.email ? <p>{errors.email}</p> : null} */}
 
           <Input
             element="input"
@@ -134,9 +101,6 @@ const Login = () => {
             touched={touched.password}
             errors={errors.password}
           />
-          {/* {touched.password && errors.password ? (
-            <p>{errors.password}</p>
-          ) : null} */}
 
           <Button type="submit" disabled={!(isValid && dirty)}>
             {isLoginMode ? 'ZALOGUJ' : 'REJESTRACJA'}

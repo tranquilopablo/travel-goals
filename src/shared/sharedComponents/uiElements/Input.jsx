@@ -24,7 +24,11 @@ const Input = (props) => {
     );
 
   return (
-    <div className={css.formControl}>
+    <div
+      className={`${css.formControl} ${
+        props.touched && props.errors && css['formControl-invalid']
+      }  `}
+    >
       <label htmlFor={props.id}>{props.label}</label>
       {element}
       {props.touched && props.errors ? <p>{props.errors}</p> : null}
@@ -34,24 +38,4 @@ const Input = (props) => {
 
 export default Input;
 
-// <div
-// className={`${css.formControl} ${
-//   touched.email && errors.email && css['formControl-invalid']
-// }  `}
-// >
-// <label htmlFor="email">E-Mail</label>
-// <input
-//   id="email"
-//   name="email"
-//   type="email"
-//   onChange={handleChange}
-//   onBlur={handleBlur}
-//   value={values.email}
-// />
-// {touched.email && errors.email ? <p>{errors.email}</p> : null}
-// </div>
-// <div
-// className={`${css.formControl} ${
-//   touched.password && errors.password && css['formControl-invalid']
-// }  `}
-// >
+
