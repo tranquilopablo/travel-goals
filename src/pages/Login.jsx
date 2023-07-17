@@ -17,36 +17,17 @@ const Login = () => {
   const [error, setError] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
-  // const initialValues = isLoginMode
-  //   ? {
-  //       password: '',
-  //       email: '',
-  //     }
-  //   : {
-  //       firstName: '',
-  //       password: '',
-  //       email: '',
-  //     };
 
-  // const initialValues = {
-  //   firstName: '',
-  //   password: '',
-  //   email: '',
-  // };
-
-  console.log(isLoginMode);
   const initialValuesLogin = {
     password: '',
     email: '',
   };
+
   const initialValuesRegister = {
-    // firstName: isLoginMode ? 'login' : 'rejestracja',
     firstName: 'rejestracja',
     password: '',
     email: '',
   };
-
-  console.log(isLoginMode ? initialValuesLogin : initialValuesRegister);
 
   const {
     values,
@@ -60,12 +41,10 @@ const Login = () => {
     handleSubmit,
   } = useFormik({
     initialValues: isLoginMode ? initialValuesLogin : initialValuesRegister,
-
     validationSchema: isLoginMode
       ? loginValidateSchema
       : registrationValidateSchema,
     onSubmit: (values) => {
-      // alert(JSON.stringify(values, null, 2));
       console.log('zalogowano!', values);
       handleReset();
     },
@@ -78,8 +57,6 @@ const Login = () => {
   const switchModeHandler = () => {
     setIsLoginMode((prevMode) => !prevMode);
   };
-
-  console.log(values);
 
   return (
     <>
@@ -103,7 +80,15 @@ const Login = () => {
               errors={errors.firstName}
             />
           )}
-          {!isLoginMode && <ImageUpload center id="image" errorText="" />}
+          {!isLoginMode && (
+            <ImageUpload
+              center
+              id="image"
+              errorText=""
+              // value={values.image}   // pozniej przerobic imageupload pod formik
+              // onChange={handleChange}
+            />
+          )}
           <Input
             element="input"
             id="email"
