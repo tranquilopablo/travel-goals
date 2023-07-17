@@ -24,7 +24,7 @@ const Login = () => {
   };
 
   const initialValuesRegister = {
-    firstName: 'rejestracja',
+    firstName: '',
     password: '',
     email: '',
   };
