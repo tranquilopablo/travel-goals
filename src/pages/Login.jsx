@@ -15,7 +15,38 @@ import Input from '../shared/sharedComponents/uiElements/Input';
 const Login = () => {
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [error, setError] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
+  // const initialValues = isLoginMode
+  //   ? {
+  //       password: '',
+  //       email: '',
+  //     }
+  //   : {
+  //       firstName: '',
+  //       password: '',
+  //       email: '',
+  //     };
+
+  // const initialValues = {
+  //   firstName: '',
+  //   password: '',
+  //   email: '',
+  // };
+
+  console.log(isLoginMode);
+  const initialValuesLogin = {
+    password: '',
+    email: '',
+  };
+  const initialValuesRegister = {
+    // firstName: isLoginMode ? 'login' : 'rejestracja',
+    firstName: 'rejestracja',
+    password: '',
+    email: '',
+  };
+
+  console.log(isLoginMode ? initialValuesLogin : initialValuesRegister);
 
   const {
     values,
@@ -28,13 +59,11 @@ const Login = () => {
     handleReset,
     handleSubmit,
   } = useFormik({
-    initialValues: {
-      // firstName: '',
-      password: '',
-      // lastName: '',
-      email: '',
-    },
-    validationSchema: loginValidateSchema,
+    initialValues: isLoginMode ? initialValuesLogin : initialValuesRegister,
+
+    validationSchema: isLoginMode
+      ? loginValidateSchema
+      : registrationValidateSchema,
     onSubmit: (values) => {
       // alert(JSON.stringify(values, null, 2));
       console.log('zalogowano!', values);
@@ -50,9 +79,8 @@ const Login = () => {
     setIsLoginMode((prevMode) => !prevMode);
   };
 
-  console.log(errors);
+  console.log(values);
 
-  /// uzyc tutaj formik
   return (
     <>
       <ErrorModal error={error} onClear={clearError} />

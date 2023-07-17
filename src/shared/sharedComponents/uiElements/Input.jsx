@@ -6,9 +6,9 @@ const Input = (props) => {
       <input
         id={props.id}
         type={props.type}
-        placeholder={props.placeholder}
         name={props.name}
         onChange={props.onChange}
+        placeholder={props.placeholder}
         onBlur={props.onBlur}
         value={props.value}
       />
@@ -37,5 +37,3 @@ const Input = (props) => {
 };
 
 export default Input;
-
-
