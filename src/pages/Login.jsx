@@ -4,7 +4,6 @@ import Card from '../shared/sharedComponents/uiElements/Card';
 import ErrorModal from '../shared/sharedComponents/uiElements/ErrorModal';
 import LoadingSpinner from '../shared/sharedComponents/uiElements/LoadingSpinner';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import ImageUpload from '../shared/sharedComponents/uiElements/ImageUpload';
 import {
   loginValidateSchema,
