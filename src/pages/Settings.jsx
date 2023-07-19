@@ -46,7 +46,7 @@ const Settings = () => {
     validationSchema: registrationValidateSchema,
     onSubmit: (values) => {
       updateAccountHandler();
-      console.log('zalogowano!', values);
+      console.log('Dane wysłane!', values);
       handleReset();
     },
   });

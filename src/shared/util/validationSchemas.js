@@ -13,6 +13,14 @@ const emailSchema = Yup.string()
   .email('Podaj poprawny adres email')
   .required('Wymagane');
 
+const titleSchema = Yup.string().required('Podaj nazwę miejsca.');
+
+const descriptionSchema = Yup.string()
+  .min(6, 'Co najmniej 5 znaków')
+  .required('Podaj opis miejsca.');
+
+const addressSchema = Yup.string().required('Podaj adres miejsca.');
+
 export const loginValidateSchema = Yup.object().shape({
   password: passwordSchema,
   email: emailSchema,
@@ -23,5 +31,8 @@ export const registrationValidateSchema = Yup.object().shape({
   password: passwordSchema,
   email: emailSchema,
 });
-
-
+export const newPlaceValidateSchema = Yup.object().shape({
+  title: titleSchema,
+  description: descriptionSchema,
+  address: addressSchema,
+});
