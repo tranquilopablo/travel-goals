@@ -7,10 +7,10 @@ import { useFormik } from 'formik';
 import ImageUpload from '../shared/sharedComponents/uiElements/ImageUpload';
 import { registrationValidateSchema } from '../shared/util/validationSchemas';
 import Input from '../shared/sharedComponents/uiElements/Input';
+import Modal from '../shared/sharedComponents/uiElements/Modal';
 
 const Settings = () => {
   const [error, setError] = useState(false);
-
   const [isLoading, setIsLoading] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [loadedUser, setLoadedUser] = useState();
@@ -62,6 +62,12 @@ const Settings = () => {
     setShowConfirmModal(false);
   };
 
+  const confirmDeleteHandler = (e) => {
+    e.preventDefault();
+    setShowConfirmModal(false);
+    console.log('usunięto konto! ');
+  };
+
   return (
     <>
       <ErrorModal error={error} onClear={clearError} />
@@ -70,6 +76,21 @@ const Settings = () => {
           <LoadingSpinner />
         </div>
       )}
+      <Modal
+        show={showConfirmModal}
+        onCancel={cancelDeleteWarningHandler}
+        header="Jesteś pewien że chcesz usunąć konto?"
+        footer={
+          <React.Fragment>
+            <Button margin inverse onClick={cancelDeleteWarningHandler}>
+              WRÓĆ
+            </Button>
+            <Button danger onClick={confirmDeleteHandler}>
+              USUŃ
+            </Button>
+          </React.Fragment>
+        }
+      ></Modal>
       {!isLoading && loadedUser && (
         <Card login>
           {isLoading && <LoadingSpinner asOverlay />}

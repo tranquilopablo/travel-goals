@@ -19,7 +19,7 @@ const Button = (props) => {
     <button
       className={`${css.button} ${props.inverse && css.buttonInverse} ${
         props.danger && css.buttonDanger
-      } `}
+  } ${props.margin && css['btn-margin']}`}
       type={props.type}
       onClick={props.onClick}
       disabled={props.disabled}
