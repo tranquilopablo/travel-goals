@@ -9,7 +9,6 @@ import Input from '../shared/sharedComponents/uiElements/Input';
 import Modal from '../shared/sharedComponents/uiElements/Modal';
 import css from './NewPlace.module.css';
 
-
 export default function NewPlace() {
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -57,6 +56,18 @@ export default function NewPlace() {
     console.log('przeniesiono na głowną stronę!');
   };
 
+  //    ponizej dla radioinput i select
+
+  // const validationSchema = Yup.object().shape({
+  //   selectField: Yup.string().required('Select field is required'),
+  //   radioField: Yup.string().required('Please select one of the options'),
+  // });
+
+  // const initialValues = {
+  //   selectField: '',
+  //   radioField: '',
+  // };
+
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
@@ -99,6 +110,54 @@ export default function NewPlace() {
           touched={touched.address}
           errors={errors.address}
         />
+
+        <div>
+          <label htmlFor="selectField">Ważność projektu w skali od 1-5</label>
+          <select
+            name="selectField"
+            id="selectField"
+            onChange={handleChange}
+            value={values.selectField}
+          >
+            <option value="">Select an option</option>
+            <option value="option1">Option 1</option>
+            <option value="option2">Option 2</option>
+            <option value="option3">Option 3</option>
+          </select>
+          {errors.selectField && touched.selectField && (
+            <div className="error">{errors.selectField}</div>
+          )}
+        </div>
+
+        <div>
+          <h4>Status:</h4>
+          <div>
+            <label>
+              <input
+                type="radio"
+                name="radioField"
+                value="optionA"
+                checked={values.radioField === 'optionA'}
+                onChange={handleChange}
+              />
+              Publiczny
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="radioField"
+                value="optionB"
+                checked={values.radioField === 'optionB'}
+                onChange={handleChange}
+              />
+              Prywatny
+            </label>
+            {errors.radioField && touched.radioField && (
+              <div className="error">{errors.radioField}</div>
+            )}
+          </div>
+        </div>
+
         <ImageUpload
           center
           id="image"

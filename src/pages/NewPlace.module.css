@@ -11,6 +11,7 @@
 
 .placeForm input,
 .placeForm label,
-.placeForm p {
+.placeForm p,
+.placeForm div {
   text-align: start;
 }
