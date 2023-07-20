@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Button from '../shared/sharedComponents/uiElements/Button';
-import Card from '../shared/sharedComponents/uiElements/Card';
 import ErrorModal from '../shared/sharedComponents/uiElements/ErrorModal';
 import LoadingSpinner from '../shared/sharedComponents/uiElements/LoadingSpinner';
 import { useFormik } from 'formik';
@@ -8,6 +7,8 @@ import ImageUpload from '../shared/sharedComponents/uiElements/ImageUpload';
 import { newPlaceValidateSchema } from '../shared/util/validationSchemas';
 import Input from '../shared/sharedComponents/uiElements/Input';
 import Modal from '../shared/sharedComponents/uiElements/Modal';
+import css from './NewPlace.module.css';
+
 
 export default function NewPlace() {
   const [error, setError] = useState(false);
@@ -59,7 +60,7 @@ export default function NewPlace() {
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
-      <form onSubmit={handleSubmit}>
+      <form className={css.placeForm} onSubmit={handleSubmit}>
         <Input
           element="input"
           id="title"

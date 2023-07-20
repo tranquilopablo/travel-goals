@@ -1,0 +1,16 @@
+.placeForm {
+  width: 90%;
+  margin: 0 auto 2rem auto;
+  padding: 1rem;
+  max-width: 40rem;
+  box-shadow: 0 2px 8px 6px rgba(0, 0, 0, 0.26);
+  border-radius: 6px;
+  background: white;
+  text-align: start;
+}
+
+.placeForm input,
+.placeForm label,
+.placeForm p {
+  text-align: start;
+}
