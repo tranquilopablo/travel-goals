@@ -8,12 +8,11 @@ import { newPlaceValidateSchema } from '../shared/util/validationSchemas';
 import Input from '../shared/sharedComponents/uiElements/Input';
 import Modal from '../shared/sharedComponents/uiElements/Modal';
 import css from './NewPlace.module.css';
+import SelectForm from '../shared/sharedComponents/uiElements/SelectForm';
 
 export default function NewPlace() {
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [loadedUser, setLoadedUser] = useState();
 
   const newPlaceImg =
     'https://t3.gstatic.com/images?q=tbn:ANd9GcTsYfPmGJlhdYYoimizj9KjzYltxPMxmA3fOq7VYtpCUFdwFR8W';
@@ -22,6 +21,8 @@ export default function NewPlace() {
     title: '',
     description: '',
     address: '',
+    selectField: 'option1',
+    radioField: 'optionA',
   };
 
   const clearError = () => {
@@ -55,18 +56,6 @@ export default function NewPlace() {
   const handleGoBack = () => {
     console.log('przeniesiono na głowną stronę!');
   };
-
-  //    ponizej dla radioinput i select
-
-  // const validationSchema = Yup.object().shape({
-  //   selectField: Yup.string().required('Select field is required'),
-  //   radioField: Yup.string().required('Please select one of the options'),
-  // });
-
-  // const initialValues = {
-  //   selectField: '',
-  //   radioField: '',
-  // };
 
   return (
     <React.Fragment>
@@ -111,23 +100,20 @@ export default function NewPlace() {
           errors={errors.address}
         />
 
-        <div>
-          <label htmlFor="selectField">Ważność projektu w skali od 1-5</label>
-          <select
-            name="selectField"
-            id="selectField"
-            onChange={handleChange}
-            value={values.selectField}
-          >
-            <option value="">Select an option</option>
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
-          </select>
-          {errors.selectField && touched.selectField && (
-            <div className="error">{errors.selectField}</div>
-          )}
-        </div>
+        <SelectForm
+          label="Ważność projektu w skali od 1-5"
+          value={values.selectField}
+          onChange={handleChange}
+          options={[
+            { value: 'option1', label: 1 },
+            { value: 'option2', label: 2 },
+            { value: 'option3', label: 3 },
+            { value: 'option4', label: 4 },
+            { value: 'option5', label: 5 },
+          ]}
+          touched={touched.selectField}
+          errors={errors.selectField}
+        />
 
         <div>
           <h4>Status:</h4>

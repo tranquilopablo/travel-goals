@@ -35,4 +35,5 @@ export const newPlaceValidateSchema = Yup.object().shape({
   title: titleSchema,
   description: descriptionSchema,
   address: addressSchema,
+ 
 });
