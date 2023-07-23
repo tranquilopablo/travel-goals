@@ -143,6 +143,49 @@ export default function NewPlace() {
             )}
           </div>
         </div>
+        <SelectForm
+          label="Ważność projektu w skali od 1-5"
+          value={values.selectField}
+          onChange={handleChange}
+          options={[
+            { value: 'option1', label: 1 },
+            { value: 'option2', label: 2 },
+            { value: 'option3', label: 3 },
+            { value: 'option4', label: 4 },
+            { value: 'option5', label: 5 },
+          ]}
+          touched={touched.selectField}
+          errors={errors.selectField}
+        />
+
+        <div>
+          <h4>Status:</h4>
+          <div>
+            <label>
+              <input
+                type="radio"
+                name="radioField"
+                value="optionA"
+                checked={values.radioField === 'optionA'}
+                onChange={handleChange}
+              />
+              Publiczny
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="radioField"
+                value="optionB"
+                checked={values.radioField === 'optionB'}
+                onChange={handleChange}
+              />
+              Prywatny
+            </label>
+            {errors.radioField && touched.radioField && (
+              <div className="error">{errors.radioField}</div>
+            )}
+          </div>
+        </div>
 
         <ImageUpload
           center
