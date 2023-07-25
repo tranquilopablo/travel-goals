@@ -16,7 +16,7 @@ export default function UpdatePlace() {
   const [loadedPlace, setLoadedPlace] = useState();
 
   useEffect(() => {
-    // tutaj fetchujemy miejsce do edycji z bazy danych
+    // tutaj fetchujemy miejsce do edycji z bazy danychh
     console.log('załadowano miejsce do edycji!');
   }, []);
 
