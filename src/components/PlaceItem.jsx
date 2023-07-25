@@ -136,7 +136,7 @@ const PlaceItem = (props) => {
             <Button inverse onClick={openMapHandler}>
               ZOBACZ NA MAPIE
             </Button>
-            <Button to={`/miejsca/`}>EDYTUJ</Button>
+            <Button to={`/miejsca/${props.id}`}>EDYTUJ</Button>
 
             <Button danger onClick={showDeleteWarningHandler}>
               USUŃ
