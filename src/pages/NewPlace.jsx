@@ -61,6 +61,7 @@ export default function NewPlace() {
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
       <form className={css.placeForm} onSubmit={handleSubmit}>
+      {isLoading && <LoadingSpinner asOverlay />}
         <Input
           element="input"
           id="title"
