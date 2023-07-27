@@ -6,16 +6,21 @@ const PORT = 5000;
 // Middleware
 app.use(express.json()); // Parses incoming requests with JSON payloads
 
-// Sample data - Replace this with your actual data storage mechanism (e.g., database)
-let todos = [
-  { id: 1, text: 'Buy groceries' },
-  { id: 2, text: 'Walk the dog' },
-];
+
+// Preventing CORS errors
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+  next();
+});
 
 // Routes
-app.get('/api/todos', (req, res) => {
-  res.json(todos);
-});
+// app.use('/api/places', placesRoutes);
+// app.use('/api/users', usersRoutes);
 
 app.post('/api/todos', (req, res) => {
   const newTodo = req.body;
