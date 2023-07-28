@@ -1,4 +1,6 @@
 const express = require('express');
+// const placesRoutes = require('./routes/places-routes');
+// const usersRoutes = require('./routes/users-routes');
 
 const app = express();
 const PORT = 5000;
@@ -22,11 +24,7 @@ app.use((req, res, next) => {
 // app.use('/api/places', placesRoutes);
 // app.use('/api/users', usersRoutes);
 
-app.post('/api/todos', (req, res) => {
-  const newTodo = req.body;
-  todos.push(newTodo);
-  res.json(newTodo);
-});
+
 
 // Start the server
 app.listen(PORT, () => {
