@@ -3,7 +3,7 @@ const placesRoutes = require('./routes/places-routes');
 // const usersRoutes = require('./routes/users-routes');
 
 const app = express();
-const PORT = 5000;
+// const PORT = 5000;
 
 // Middleware
 app.use(express.json()); // Parses incoming requests with JSON payloads

@@ -1,9 +1,28 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
-  console.log('get places');
-  res.json({ message: 'udalo się!' });
-});
+// router.get('/', (req, res, next) => {
+//   console.log('get places');
+//   res.json({ message: 'udalo sięE!' });
+// });
+
+///////////////////////////////////////////////////////////////////////////////
+// GET PLACE BY PLACE ID
+router.get('/:pid', (req, res, next) => {});
+//////////////////////////////////////////////////////////////////////////////////////////
+// GET PLACES BY USER ID
+router.get('/user/:uid', (req, res, next) => {});
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// CREATE PLACE
+router.post('/', (req, res, next) => {});
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// UPDATE PLACE
+router.patch('/:pid', (req, res, next) => {});
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// DELETE PLACE
+router.delete('/:pid/:uid',  (req, res, next) => {});
 
 module.exports = router;
