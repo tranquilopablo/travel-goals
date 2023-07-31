@@ -1,9 +1,9 @@
 const express = require('express');
 const placesRoutes = require('./routes/places-routes');
-// const usersRoutes = require('./routes/users-routes');
+const usersRoutes = require('./routes/users-routes');
 
 const app = express();
-// const PORT = 5000;
+const PORT = 5000;
 
 // Middleware
 app.use(express.json()); // Parses incoming requests with JSON payloads
@@ -21,11 +21,10 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/api/places', placesRoutes);
-// app.use('/api/users', usersRoutes);
+app.use('/api/users', usersRoutes);
 
 // Start the server
-// app.listen(PORT, () => {
-//   console.log(`Server is running on http://localhost:${PORT}`);
-//   console.log('Backend is runningg');
-// });
-app.listen(5000);
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log('Backend is runningg');
+});
