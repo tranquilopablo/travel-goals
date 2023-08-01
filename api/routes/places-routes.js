@@ -46,51 +46,88 @@ const DUMMY_PLACES = [
     address: 'Great Wall of China, Huairou, China',
     creator: 'u4',
   },
-  {
-    id: 'p5',
-    title: 'Taj Mahal',
-    description: 'Magnificent marble mausoleum in Agra, India!',
-    location: {
-      lat: 27.1751448,
-      lng: 78.0421422,
-    },
-    address:
-      'Dharmapuri, Forest Colony, Tajganj, Agra, Uttar Pradesh 282001, India',
-    creator: 'u5',
-  },
-  {
-    id: 'p6',
-    title: 'Sydney Opera House',
-    description: 'Famous performing arts venue in Sydney!',
-    location: {
-      lat: -33.8567844,
-      lng: 151.2152967,
-    },
-    address: 'Sydney Opera House, Bennelong Point, Sydney, NSW 2000, Australia',
-    creator: 'u6',
-  },
 ];
-
-
 
 ///////////////////////////////////////////////////////////////////////////////
 // GET PLACE BY PLACE ID
 router.get('/:pid', (req, res, next) => {
   const placeId = req.params.pid;
   const place = DUMMY_PLACES.find((p) => p.id === placeId);
+
+  if (!place) {
+    const error = new Error('Nie znaleziono tego miejsca');
+    error.code = 404;
+    return next(error);
+  }
+
   res.json({ place });
 });
 //////////////////////////////////////////////////////////////////////////////////////////
 // GET PLACES BY USER ID
 router.get('/user/:uid', (req, res, next) => {
-    const userId = req.params.uid;
+  const userId = req.params.uid;
   const place = DUMMY_PLACES.find((p) => p.creator === userId);
+  if (!place) {
+    const error = new Error('Nie znaleziono tego miejsca');
+    error.code = 404;
+    return next(error);
+  }
   res.json({ place });
 });
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // CREATE PLACE
-router.post('/', (req, res, next) => {});
+router.post('/', (req, res, next) => {
+  const {
+    id,
+    title,
+    description,
+    image,
+    address,
+    coordinates,
+    creator,
+    done,
+    priority,
+    place,
+    status,
+  } = req.body;
+
+  // const coordinates = {
+  //     lat: 50.0616411,
+  //     lng: 19.9368154,
+  //   },
+
+  // const createdPlace = {
+  //   id: 'p7',
+  //   title: 'Kościół Mariacki 2',
+  //   description: 'Jedna z najsłyniejszych polskich kaplic!',
+  //   image:
+  //     'https://t3.gstatic.com/images?q=tbn:ANd9GcTsYfPmGJlhdYYoimizj9KjzYltxPMxmA3fOq7VYtpCUFdwFR8W',
+  //   address: 'plac Mariacki 5, 31-042 Kraków, Polska',
+  //   location: coordinates,
+  //   creator: 'u7',
+  //   done: true,
+  //   priority: 2,
+  //   status: 2,
+  // };
+
+  const createdPlace = {
+    id,
+    title,
+    description,
+    image,
+    address,
+    location: coordinates,
+    creator,
+    done,
+    priority,
+    place,
+    status,
+  };
+
+  DUMMY_PLACES.push(createdPlace);
+  res.status(201).json({ place: createdPlace });
+});
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // UPDATE PLACE
