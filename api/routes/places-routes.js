@@ -131,7 +131,23 @@ router.post('/', (req, res, next) => {
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // UPDATE PLACE
-router.patch('/:pid', (req, res, next) => {});
+router.patch('/:pid', (req, res, next) => {
+  const placeId = req.params.pid;
+
+  const { title, description, image, address, priority, status } = req.body;
+
+  const updatedPlace = { ...DUMMY_PLACES.find((p) => p.id === placeId) };
+  const placeIndex = DUMMY_PLACES.findIndex((p) => p.id === placeId);
+  updatedPlace.title = title;
+  updatedPlace.description = description;
+  updatedPlace.image = image;
+  updatedPlace.address = address;
+  updatedPlace.priority = priority;
+  updatedPlace.status = status;
+
+  DUMMY_PLACES[placeIndex] = updatedPlace;
+  res.status(200).json({ place: updatedPlace });
+});
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // DELETE PLACE
