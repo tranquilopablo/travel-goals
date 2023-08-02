@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const DUMMY_PLACES = [
+let DUMMY_PLACES = [
   {
     id: 'p1',
     title: 'Empire State Building',
@@ -66,13 +66,13 @@ router.get('/:pid', (req, res, next) => {
 // GET PLACES BY USER ID
 router.get('/user/:uid', (req, res, next) => {
   const userId = req.params.uid;
-  const place = DUMMY_PLACES.find((p) => p.creator === userId);
-  if (!place) {
-    const error = new Error('Nie znaleziono tego miejsca');
+  const places = DUMMY_PLACES.filter((p) => p.creator === userId);
+  if (!places || places.length === 0) {
+    const error = new Error('Nie znaleziono żadnych miejsc tego uzytkownika!');
     error.code = 404;
     return next(error);
   }
-  res.json({ place });
+  res.json({ places });
 });
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -151,6 +151,10 @@ router.patch('/:pid', (req, res, next) => {
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // DELETE PLACE
-router.delete('/:pid/:uid', (req, res, next) => {});
+router.delete('/:pid', (req, res, next) => {
+  const placeId = req.params.pid;
+  DUMMY_PLACES = DUMMY_PLACES.filter((p) => p.id !== placeId);
+  res.status(200).json({ message: 'usunieto miiejsce!' });
+});
 
 module.exports = router;
