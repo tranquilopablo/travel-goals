@@ -33,19 +33,41 @@ router.get('/:uid', (req, res, next) => {});
 
 ////////////////////////////////////////////////////////////////////
 // REGISTER
-router.post('/signup', (req, res, next) => {});
+router.post('/signup', (req, res, next) => {
+  const { name, email, password, id, image } = req.body;
+
+  const createdUser = {
+    id,
+    name,
+    email,
+    password,
+    image,
+  };
+
+  DUMMY_USERS.push(createdUser);
+
+  res.status(201).json({ user: createdUser });
+});
 
 ////////////////////////////////////////////////////////////////////////
 // LOGIN
 router.post('/login', (req, res, next) => {
   const { email, password } = req.body;
-  const identifiedUser = DUMMY_USERS.find((user) => (user.email = email));
+  let existingUser = DUMMY_USERS.find((user) => (user.email = email));
 
-  if (!identifiedUser || identifiedUser.password !== password) {
-    return next(new Error('Nie można zalogować, sprawdż poprawność danych.'));
+  if (!existingUser) {
+    const error = new Error('Nie można zalogować, sprawdż poprawność danych.');
+    error.code = 500;
+    return next(error);
   }
-  error.code = 403;
-  return next(error);
+
+  // if (existingUser.password !== password) {
+  //   const error = new Error('Podane dane do logowania są nieprawidłoweee ');
+  //   error.code = 403;
+  //   return next(error);
+  // }
+
+  res.json({ message: 'Zalogowano!', existingUser });
 });
 
 ////////////////////////////////////////////////////////////////////////
