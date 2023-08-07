@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { check, validationResult } = require('express-validator');
 
 let DUMMY_PLACES = [
   {
@@ -77,57 +78,72 @@ router.get('/user/:uid', (req, res, next) => {
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // CREATE PLACE
-router.post('/', (req, res, next) => {
-  const {
-    id,
-    title,
-    description,
-    image,
-    address,
-    coordinates,
-    creator,
-    done,
-    priority,
-    place,
-    status,
-  } = req.body;
+router.post(
+  '/',
+  [
+    check('title').not().isEmpty(),
+    check('description').isLength({ min: 5 }),
+    check('address').not().isEmpty(),
+  ],
+  (req, res, next) => {
+    const {
+      id,
+      title,
+      description,
+      image,
+      address,
+      coordinates,
+      creator,
+      done,
+      priority,
+      place,
+      status,
+    } = req.body;
 
-  // const coordinates = {
-  //     lat: 50.0616411,
-  //     lng: 19.9368154,
-  //   },
+    // const coordinates = {
+    //     lat: 50.0616411,
+    //     lng: 19.9368154,
+    //   },
 
-  // const createdPlace = {
-  //   id: 'p7',
-  //   title: 'Kościół Mariacki 2',
-  //   description: 'Jedna z najsłyniejszych polskich kaplic!',
-  //   image:
-  //     'https://t3.gstatic.com/images?q=tbn:ANd9GcTsYfPmGJlhdYYoimizj9KjzYltxPMxmA3fOq7VYtpCUFdwFR8W',
-  //   address: 'plac Mariacki 5, 31-042 Kraków, Polska',
-  //   location: coordinates,
-  //   creator: 'u7',
-  //   done: true,
-  //   priority: 2,
-  //   status: 2,
-  // };
+    // const createdPlace = {
+    //   id: 'p7',
+    //   title: 'Kościół Mariacki 2',
+    //   description: 'Jedna z najsłyniejszych polskich kaplic!',
+    //   image:
+    //     'https://t3.gstatic.com/images?q=tbn:ANd9GcTsYfPmGJlhdYYoimizj9KjzYltxPMxmA3fOq7VYtpCUFdwFR8W',
+    //   address: 'plac Mariacki 5, 31-042 Kraków, Polska',
+    //   location: coordinates,
+    //   creator: 'u7',
+    //   done: true,
+    //   priority: 2,
+    //   status: 2,
+    // };
 
-  const createdPlace = {
-    id,
-    title,
-    description,
-    image,
-    address,
-    location: coordinates,
-    creator,
-    done,
-    priority,
-    place,
-    status,
-  };
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = new Error('Niepoprawne dane, sprawdź i popraww.');
+      error.code = 422;
+      throw error;
+    }
 
-  DUMMY_PLACES.push(createdPlace);
-  res.status(201).json({ place: createdPlace });
-});
+    const createdPlace = {
+      id,
+      title,
+      description,
+      image,
+      address,
+      location: coordinates,
+      creator,
+      done,
+      priority,
+      place,
+      status,
+    };
+
+    DUMMY_PLACES.push(createdPlace);
+    res.status(201).json({ place: createdPlace });
+  }
+);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // UPDATE PLACE
