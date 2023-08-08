@@ -34,29 +34,46 @@ router.get('/:uid', (req, res, next) => {});
 
 ////////////////////////////////////////////////////////////////////
 // REGISTER
-router.post('/signup', (req, res, next) => {
-  const { name, email, password, id, image } = req.body;
+router.post(
+  '/signup',
+  [
+    check('name').not().isEmpty(),
+    check('email').normalizeEmail().isEmail(),
+    check('password').isLength({ min: 6 }),
+  ],
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = new Error(
+        'Nieprawidłowe dane przeszły, proszę sprawdź dane.'
+      );
+      error.code = 422;
+      return next(error);
+    }
 
-  const hasUser = DUMMY_USERS.find((user) => user.email === email);
+    const { name, email, password, id, image } = req.body;
 
-  if (hasUser) {
-    const error = new Error('Uzytkownik o podanym email już istnieje!');
-    error.code = 422;
-    return next(error);
+    const hasUser = DUMMY_USERS.find((user) => user.email === email);
+
+    if (hasUser) {
+      const error = new Error('Uzytkownik o podanym email już istnieje!');
+      error.code = 422;
+      return next(error);
+    }
+
+    const createdUser = {
+      id,
+      name,
+      email,
+      password,
+      image,
+    };
+
+    DUMMY_USERS.push(createdUser);
+
+    res.status(201).json({ user: createdUser });
   }
-
-  const createdUser = {
-    id,
-    name,
-    email,
-    password,
-    image,
-  };
-
-  DUMMY_USERS.push(createdUser);
-
-  res.status(201).json({ user: createdUser });
-});
+);
 
 ////////////////////////////////////////////////////////////////////////
 // LOGIN

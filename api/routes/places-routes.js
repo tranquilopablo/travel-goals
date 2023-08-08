@@ -147,28 +147,43 @@ router.post(
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // UPDATE PLACE
-router.patch('/:pid', (req, res, next) => {
-  const placeId = req.params.pid;
+router.patch(
+  '/:pid',
+  [check('title').not().isEmpty(), check('description').isLength({ min: 5 })],
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = new Error('Niepoprawne dane, sprawdź i popraw.');
+      error.code = 422;
+      return next(error);
+    }
+    const placeId = req.params.pid;
 
-  const { title, description, image, address, priority, status } = req.body;
+    const { title, description, image, address, priority, status } = req.body;
 
-  const updatedPlace = { ...DUMMY_PLACES.find((p) => p.id === placeId) };
-  const placeIndex = DUMMY_PLACES.findIndex((p) => p.id === placeId);
-  updatedPlace.title = title;
-  updatedPlace.description = description;
-  updatedPlace.image = image;
-  updatedPlace.address = address;
-  updatedPlace.priority = priority;
-  updatedPlace.status = status;
+    const updatedPlace = { ...DUMMY_PLACES.find((p) => p.id === placeId) };
+    const placeIndex = DUMMY_PLACES.findIndex((p) => p.id === placeId);
+    updatedPlace.title = title;
+    updatedPlace.description = description;
+    updatedPlace.image = image;
+    updatedPlace.address = address;
+    updatedPlace.priority = priority;
+    updatedPlace.status = status;
 
-  DUMMY_PLACES[placeIndex] = updatedPlace;
-  res.status(200).json({ place: updatedPlace });
-});
+    DUMMY_PLACES[placeIndex] = updatedPlace;
+    res.status(200).json({ place: updatedPlace });
+  }
+);
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // DELETE PLACE
 router.delete('/:pid', (req, res, next) => {
   const placeId = req.params.pid;
+  if (!DUMMY_PLACES.find((p) => p.id === placeId)) {
+    const error = new Error('Nie znaleziono miejsca o podanym id.');
+    error.code = 404;
+    return next(error);
+  }
   DUMMY_PLACES = DUMMY_PLACES.filter((p) => p.id !== placeId);
   res.status(200).json({ message: 'usunieto miiejsce!' });
 });
