@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
+const getCoordsForAddress = require('../util/location');
 
 let DUMMY_PLACES = [
   {
@@ -85,25 +86,22 @@ router.post(
     check('description').isLength({ min: 5 }),
     check('address').not().isEmpty(),
   ],
-  (req, res, next) => {
-    const {
-      id,
-      title,
-      description,
-      image,
-      address,
-      coordinates,
-      creator,
-      done,
-      priority,
-      place,
-      status,
-    } = req.body;
+  async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = new Error('Niepoprawne dane, sprawdź i popraww.');
+      error.code = 422;
+      return next(error);
+    }
 
-    // const coordinates = {
-    //     lat: 50.0616411,
-    //     lng: 19.9368154,
-    //   },
+    const { id, title, description, address, creator, priority, status, done, image } =
+      req.body;
+    let coordinates;
+    try {
+      coordinates = await getCoordsForAddress(address);
+    } catch (error) {
+      return next(error);
+    }
 
     // const createdPlace = {
     //   id: 'p7',
@@ -119,13 +117,6 @@ router.post(
     //   status: 2,
     // };
 
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      const error = new Error('Niepoprawne dane, sprawdź i popraww.');
-      error.code = 422;
-      throw error;
-    }
-
     const createdPlace = {
       id,
       title,
@@ -136,7 +127,6 @@ router.post(
       creator,
       done,
       priority,
-      place,
       status,
     };
 
