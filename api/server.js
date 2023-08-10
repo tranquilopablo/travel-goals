@@ -1,6 +1,7 @@
 const express = require('express');
 const placesRoutes = require('./routes/places-routes');
 const usersRoutes = require('./routes/users-routes');
+const mongoose = require('mongoose');
 
 const app = express();
 const PORT = 5000;
@@ -19,10 +20,16 @@ app.use((req, res, next) => {
   next();
 });
 
-
 // Routes
 app.use('/api/places', placesRoutes);
 app.use('/api/users', usersRoutes);
+
+// in case there is no such route as above
+app.use((req, res, next) => {
+  const error = new Error('Nie można znaleźć tego przekierowania');
+  error.code = 404;
+  throw error;
+});
 
 app.use((error, req, res, next) => {
   if (res.headerSent) {
@@ -32,8 +39,16 @@ app.use((error, req, res, next) => {
   res.json({ message: error.message || 'Wystąpił nieznany bląd!' });
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-  console.log('Backend is runningg');
-});
+mongoose
+  .connect(
+    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@pawel.vs6xb.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
+  )
+  .then(() => {
+    app.listen(process.env.PORT || 5000, () => {
+      console.log('Backend is runningg');
+      console.log('Connected to MongoDB');
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
