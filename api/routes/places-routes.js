@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
+const mongoose = require('mongoose');
 const getCoordsForAddress = require('../util/location');
+
+const Place = require('../models/place');
 
 let DUMMY_PLACES = [
   {
@@ -52,17 +55,22 @@ let DUMMY_PLACES = [
 
 ///////////////////////////////////////////////////////////////////////////////
 // GET PLACE BY PLACE ID
-router.get('/:pid', (req, res, next) => {
+router.get('/:pid', async (req, res, next) => {
   const placeId = req.params.pid;
-  const place = DUMMY_PLACES.find((p) => p.id === placeId);
-
+  let place;
+  try {
+    place = await Place.findById(placeId);
+  } catch (err) {
+    const error = new Error('Nieudana próba znalezienia miejsca.');
+    error.code = 500;
+    return next(error);
+  }
   if (!place) {
     const error = new Error('Nie znaleziono tego miejsca');
     error.code = 404;
     return next(error);
   }
-
-  res.json({ place });
+  res.json({ place: place.toObject({ getters: true }) });
 });
 //////////////////////////////////////////////////////////////////////////////////////////
 // GET PLACES BY USER ID
@@ -94,8 +102,17 @@ router.post(
       return next(error);
     }
 
-    const { id, title, description, address, creator, priority, status, done, image } =
-      req.body;
+    const {
+      id,
+      title,
+      description,
+      address,
+      creator,
+      priority,
+      status,
+      done,
+      image,
+    } = req.body;
     let coordinates;
     try {
       coordinates = await getCoordsForAddress(address);
@@ -117,20 +134,28 @@ router.post(
     //   status: 2,
     // };
 
-    const createdPlace = {
-      id,
+    const createdPlace = new Place({
       title,
       description,
-      image,
       address,
       location: coordinates,
+      image:
+        'https://t3.gstatic.com/images?q=tbn:ANd9GcTsYfPmGJlhdYYoimizj9KjzYltxPMxmA3fOq7VYtpCUFdwFR8W',
       creator,
-      done,
       priority,
       status,
-    };
+      done: false,
+    });
 
-    DUMMY_PLACES.push(createdPlace);
+    try {
+      await createdPlace.save();
+    } catch (err) {
+      const error = new Error(
+        'Próba stworzenia miejsca nieudana, spróbuj ponownie.'
+      );
+      error.code = 500;
+      return next(error);
+    }
     res.status(201).json({ place: createdPlace });
   }
 );
