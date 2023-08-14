@@ -174,7 +174,7 @@ router.post(
 router.patch(
   '/:pid',
   [check('title').not().isEmpty(), check('description').isLength({ min: 5 })],
-  (req, res, next) => {
+  async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const error = new Error('Niepoprawne dane, sprawdź i popraw.');
@@ -183,19 +183,41 @@ router.patch(
     }
     const placeId = req.params.pid;
 
-    const { title, description, image, address, priority, status } = req.body;
+    const { title, description, image, address, priority, status, done } =
+      req.body;
 
-    const updatedPlace = { ...DUMMY_PLACES.find((p) => p.id === placeId) };
-    const placeIndex = DUMMY_PLACES.findIndex((p) => p.id === placeId);
+    let coordinates;
+    try {
+      coordinates = await getCoordsForAddress(address);
+    } catch (error) {
+      return next(error);
+    }
+
+    let updatedPlace;
+    try {
+      updatedPlace = await Place.findById(placeId);
+    } catch (err) {
+      const error = new Error('Coś nie tak, nieudana próba edycji miejsca.');
+      error.code = 500;
+      return next(error);
+    }
     updatedPlace.title = title;
     updatedPlace.description = description;
     updatedPlace.image = image;
     updatedPlace.address = address;
+    updatedPlace.location = coordinates;
     updatedPlace.priority = priority;
     updatedPlace.status = status;
+    updatedPlace.done = done;
 
-    DUMMY_PLACES[placeIndex] = updatedPlace;
-    res.status(200).json({ place: updatedPlace });
+    try {
+      await updatedPlace.save();
+    } catch (err) {
+      const error = new Error('Coś nie tak, nieudana próba edycji miejsca.');
+      error.code = 500;
+      return next(error);
+    }
+    res.status(200).json({ place: updatedPlace.toObject({ getters: true }) });
   }
 );
 
