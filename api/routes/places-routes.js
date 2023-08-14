@@ -74,15 +74,24 @@ router.get('/:pid', async (req, res, next) => {
 });
 //////////////////////////////////////////////////////////////////////////////////////////
 // GET PLACES BY USER ID
-router.get('/user/:uid', (req, res, next) => {
+router.get('/user/:uid', async (req, res, next) => {
   const userId = req.params.uid;
-  const places = DUMMY_PLACES.filter((p) => p.creator === userId);
+  let places;
+  try {
+    places = await Place.find({ creator: userId });
+  } catch (err) {
+    const error = new Error('Nieudana próba pobrania miejsc, spróbuj ponownie');
+    error.code = 500;
+    return next(error);
+  }
   if (!places || places.length === 0) {
     const error = new Error('Nie znaleziono żadnych miejsc tego uzytkownika!');
     error.code = 404;
     return next(error);
   }
-  res.json({ places });
+  res.json({
+    places: places.map((place) => place.toObject({ getters: true })),
+  });
 });
 
 /////////////////////////////////////////////////////////////////////////////////////////
