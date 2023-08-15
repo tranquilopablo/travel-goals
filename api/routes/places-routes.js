@@ -111,17 +111,7 @@ router.post(
       return next(error);
     }
 
-    const {
-      id,
-      title,
-      description,
-      address,
-      creator,
-      priority,
-      status,
-      done,
-      image,
-    } = req.body;
+    const { title, description, address, creator, priority, status } = req.body;
     let coordinates;
     try {
       coordinates = await getCoordsForAddress(address);
@@ -223,15 +213,33 @@ router.patch(
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // DELETE PLACE
-router.delete('/:pid', (req, res, next) => {
+router.delete('/:pid', async (req, res, next) => {
   const placeId = req.params.pid;
-  if (!DUMMY_PLACES.find((p) => p.id === placeId)) {
-    const error = new Error('Nie znaleziono miejsca o podanym id.');
+
+  let place;
+  try {
+    place = await Place.findById(placeId);
+  } catch (err) {
+    const error = new Error('Coś nie tak, nieudana próba usunięcia miejsca.');
+    error.code = 500;
+    return next(error);
+  }
+  if (!place) {
+    const error = new Error('Nie można znależć miejsca dla podanego id.');
     error.code = 404;
     return next(error);
   }
-  DUMMY_PLACES = DUMMY_PLACES.filter((p) => p.id !== placeId);
-  res.status(200).json({ message: 'usunieto miiejsce!' });
+
+  try {
+    await place.deleteOne();
+  } catch (err) {
+    const error = new Error(
+      'Coś nie takkkkk, nieudana próba usunięcia miejsca.'
+    );
+    error.code = 500;
+    return next(error);
+  }
+  res.status(200).json({ message: 'Miejsce usunięto.' });
 });
 
 module.exports = router;
