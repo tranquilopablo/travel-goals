@@ -6,24 +6,24 @@ const { check, validationResult } = require('express-validator');
 const User = require('../models/user');
 const Place = require('../models/place');
 
-const DUMMY_USERS = [
-  {
-    id: 'u1',
-    name: 'Pawel Zguda',
-    image: 'https://images.pexels.com/photos/4095246/pexels-photo-4095246.jpeg',
-    places: 3,
-    email: 'lpn83@yahoo.pl',
-    password: 'kolo12',
-  },
-  {
-    id: 'u2',
-    name: 'Tomasz Rydel',
-    image: 'https://images.pexels.com/photos/4095246/pexels-photo-4095246.jpeg',
-    places: 2,
-    email: 'zgudapawel@gmail.com',
-    password: 'pies44',
-  },
-];
+// const DUMMY_USERS = [
+//   {
+//     id: 'u1',
+//     name: 'Pawel Zguda',
+//     image: 'https://images.pexels.com/photos/4095246/pexels-photo-4095246.jpeg',
+//     places: 3,
+//     email: 'lpn83@yahoo.pl',
+//     password: 'kolo12',
+//   },
+//   {
+//     id: 'u2',
+//     name: 'Tomasz Rydel',
+//     image: 'https://images.pexels.com/photos/4095246/pexels-photo-4095246.jpeg',
+//     places: 2,
+//     email: 'zgudapawel@gmail.com',
+//     password: 'pies44',
+//   },
+// ];
 
 /////////////////////////////////////////////////////////////////
 // GET ALL USERS
