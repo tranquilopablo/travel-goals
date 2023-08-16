@@ -99,12 +99,19 @@ router.post(
 
 ////////////////////////////////////////////////////////////////////////
 // LOGIN
-router.post('/login', (req, res, next) => {
+router.post('/login', async (req, res, next) => {
   const { email, password } = req.body;
-  let existingUser = DUMMY_USERS.find((user) => user.email === email);
 
+  let existingUser;
+  try {
+    existingUser = await User.findOne({ email: email });
+  } catch (err) {
+    const error = new Error('Logowanie się nie udało, proszę spróbuj ponownie');
+    error.code = 500;
+    return next(error);
+  }
   if (!existingUser || existingUser.password !== password) {
-    const error = new Error('Nie można zalogować, sprawdż poprawność danych.');
+    const error = new Error('Podane dane do logowania są nieprawidłowe ');
     error.code = 403;
     return next(error);
   }
