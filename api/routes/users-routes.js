@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
+
 const { check, validationResult } = require('express-validator');
+const User = require('../models/user');
+const Place = require('../models/place');
 
 const DUMMY_USERS = [
   {
@@ -41,7 +45,7 @@ router.post(
     check('email').normalizeEmail().isEmail(),
     check('password').isLength({ min: 6 }),
   ],
-  (req, res, next) => {
+  async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const error = new Error(
@@ -51,27 +55,45 @@ router.post(
       return next(error);
     }
 
-    const { name, email, password, id, image } = req.body;
+    const { name, email, password } = req.body;
 
-    const hasUser = DUMMY_USERS.find((user) => user.email === email);
-
-    if (hasUser) {
-      const error = new Error('Uzytkownik o podanym email już istnieje!');
+    let existingUser;
+    try {
+      existingUser = await User.findOne({ email: email });
+    } catch (err) {
+      const error = new Error(
+        'Rejestracja się nie udała, proszę spróbuj ponownie'
+      );
+      error.code = 500;
+      return next(error);
+    }
+    if (existingUser) {
+      const error = new Error(
+        'Użytkownik o podanym emailu już istnieje. Proszę zaloguj się w takim razie. '
+      );
       error.code = 422;
       return next(error);
     }
 
-    const createdUser = {
-      id,
+    const createdUser = new User({
       name,
       email,
+      image:
+        'https://images.pexels.com/photos/4095246/pexels-photo-4095246.jpeg',
       password,
-      image,
-    };
+      places: [],
+    });
+    try {
+      await createdUser.save();
+    } catch (err) {
+      const error = new Error(
+        'Rejestracja się nie udała, proszę spróbuj ponownie.'
+      );
+      error.code = 500;
+      return next(error);
+    }
 
-    DUMMY_USERS.push(createdUser);
-
-    res.status(201).json({ user: createdUser });
+    res.status(201).json({ user: createdUser.toObject({ getters: true }) });
   }
 );
 
