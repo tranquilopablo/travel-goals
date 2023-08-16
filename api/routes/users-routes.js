@@ -27,15 +27,45 @@ const DUMMY_USERS = [
 
 /////////////////////////////////////////////////////////////////
 // GET ALL USERS
-router.get('/', (req, res, next) => {
-  res.json({ users: DUMMY_USERS });
+router.get('/', async (req, res, next) => {
+  let users;
+  try {
+    users = await User.find({},'-password');
+  } catch (err) {
+    const error = new Error(
+      'Dostęp do użytkowników jest ograniczony, spróbuj póżniej'
+    );
+    error.code = 500;
+    return next(error);
+  }
+  res.json({ users: users.map((user) => user.toObject({ getters: true })) });
 });
 
 //////////////////////////////////////////////////////////////////////
 // GET USER BY ID
 
-router.get('/:uid', (req, res, next) => {});
-
+router.get('/:uid', async (req, res, next) => {
+  const userId = req.params.uid;
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (err) {
+    const error = new Error('Nie udało się znależć użytkownika');
+    error.code = 500;
+    return next(error);
+  }
+  if (!user) {
+    const error = new Error('Nie znaleziono tego użytkownika');
+    error.code = 404;
+    return next(error);
+  }
+  res.status(201).json({
+    userId: user.id,
+    email: user.email,
+    image: user.image,
+    name: user.name,
+  });
+});
 ////////////////////////////////////////////////////////////////////
 // REGISTER
 router.post(
