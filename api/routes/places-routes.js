@@ -240,7 +240,7 @@ router.delete('/:pid', async (req, res, next) => {
 
   let place;
   try {
-    place = await Place.findById(placeId);
+    place = await Place.findById(placeId).populate('creator');
   } catch (err) {
     const error = new Error('Coś nie tak, nieudana próba usunięcia miejsca.');
     error.code = 500;
@@ -251,13 +251,15 @@ router.delete('/:pid', async (req, res, next) => {
     error.code = 404;
     return next(error);
   }
-
   try {
-    await place.deleteOne();
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await place.deleteOne({ session: sess });
+    place.creator.places.pull(place);
+    await place.creator.save({ session: sess });
+    await sess.commitTransaction();
   } catch (err) {
-    const error = new Error(
-      'Coś nie takkkkk, nieudana próba usunięcia miejsca.'
-    );
+    const error = new Error('Coś nie tak, nieudana próba usunięcia miejsca.');
     error.code = 500;
     return next(error);
   }

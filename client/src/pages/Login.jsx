@@ -27,7 +27,7 @@ const Login = () => {
     password: '',
     email: '',
   };
-
+// fetch("http://localhost:5000/api/users/signup", {meth.....})
   const {
     values,
     errors,
