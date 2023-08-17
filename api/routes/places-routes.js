@@ -193,10 +193,10 @@ router.patch(
       error.code = 422;
       return next(error);
     }
-    const placeId = req.params.pid;
 
     const { title, description, image, address, priority, status, done } =
       req.body;
+    const placeId = req.params.pid;
 
     let coordinates;
     try {

@@ -30,7 +30,7 @@ const Place = require('../models/place');
 router.get('/', async (req, res, next) => {
   let users;
   try {
-    users = await User.find({},'-password');
+    users = await User.find({}, '-password');
   } catch (err) {
     const error = new Error(
       'Dostęp do użytkowników jest ograniczony, spróbuj póżniej'
@@ -151,10 +151,85 @@ router.post('/login', async (req, res, next) => {
 
 ////////////////////////////////////////////////////////////////////////
 //UPDATE USER
-router.patch('/:uid', (req, res, next) => {});
+router.patch(
+  '/:uid',
+  [
+    check('name').not().isEmpty(),
+    check('email').normalizeEmail().isEmail(),
+    check('password').isLength({ min: 6 }),
+  ],
+  async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = new Error('Niepoprawne dane, proszę sprawdzić poprawność.');
+      error.code = 422;
+      return next(error);
+    }
+    const { name, email, password } = req.body;
+    const userId = req.params.uid;
+
+    let updatedUser;
+    try {
+      updatedUser = await User.findById(userId);
+    } catch (err) {
+      const error = new Error(
+        'Pojawił się bląd, nie można edytować użytkownika.'
+      );
+      error.code = 500;
+      return next(error);
+    }
+
+    updatedUser.name = name;
+    updatedUser.email = email;
+    updatedUser.password = password;  //   - zmienic pozniej na haszowane haslo
+
+    try {
+      await updatedUser.save();
+    } catch (err) {
+      const error = new Error(
+        'Pojawił się bląd, nie można edytować użytkownika.'
+      );
+      error.code = 500;
+      return next(error);
+    }
+    const userObject = updatedUser.toObject({ getters: true });
+    res.status(200).json({
+      userId: userObject.id,
+      email: userObject.email,
+      image: userObject.image,
+    });
+  }
+);
 
 //////////////////////////////////////////////////////////////////////////
 //DELETE USER
-router.delete('/:uid', (req, res, next) => {});
+router.delete('/:uid', async (req, res, next) => {
+  const userId = req.params.uid;
+  let user;
+  try {
+    user = await User.findById(userId).populate('places');
+  } catch (err) {
+    const error = new Error('Pojawił się bląd, nie można usunąć użytkownika.');
+    error.code = 500;
+    return next(error);
+  }
+  if (!user) {
+    const error = new Error('Nie można znależć użytkownika o podanym id');
+    error.code = 404;
+    return next(error);
+  }
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await user.deleteOne({ session: sess });
+    await Place.deleteMany({ creator: userId }).session(sess);
+    await sess.commitTransaction();
+  } catch (err) {
+    const error = new Error('Pojawił się bląd, nie można usunąć użytkownika.');
+    error.code = 500;
+    return next(error);
+  }
+  res.status(200).json({ message: 'Usunięto użytkownika' });
+});
 
 module.exports = router;
