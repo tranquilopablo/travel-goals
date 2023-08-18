@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Button from '../shared/sharedComponents/uiElements/Button';
 import Card from '../shared/sharedComponents/uiElements/Card';
 import ErrorModal from '../shared/sharedComponents/uiElements/ErrorModal';
@@ -27,7 +27,7 @@ const Login = () => {
     password: '',
     email: '',
   };
-// fetch("http://localhost:5000/api/users/signup", {meth.....})
+  // fetch("http://localhost:5000/api/users/signup", {meth.....})
   const {
     values,
     errors,
@@ -43,11 +43,65 @@ const Login = () => {
     validationSchema: isLoginMode
       ? loginValidateSchema
       : registrationValidateSchema,
-    onSubmit: (values) => {
-      console.log('zalogowano!', values);
+    onSubmit: () => {
+      // console.log('zalogowano!', values);
+      const sendRequest = async () => {
+        try {
+          const response = await fetch(
+            'https://localhost:5000/api/users/signup',
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                name: values.firstName,
+                email: values.email,
+                password: values.password,
+              }),
+            }
+          );
+
+          const responseData = await response.json();
+          console.log(responseData);
+
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+        } catch (error) {
+          console.error('Error sending data:', error.message);
+        }
+      };
+      sendRequest();
       handleReset();
     },
   });
+
+  // const sendRequest = useCallback(
+  //   async (url, method = 'GET', body = null, headers = {}) => {
+  //     setIsLoading(true);
+  //     try {
+  //       const response = await fetch(url, {
+  //         method,
+  //         body,
+  //         headers,
+  //       });
+  //       const responseData = await response.json();
+  //       if (!response.ok) {
+  //         throw new Error(responseData.message);
+  //       }
+  //       setIsLoading(false);
+  //       return responseData;
+  //     } catch (err) {
+  //       setError(err.message);
+  //       setIsLoading(false);
+  //       throw err;
+  //     }
+  //   },
+
+  //     setError(null)
+
+  // , []);
 
   const clearError = () => {
     setError(null);
