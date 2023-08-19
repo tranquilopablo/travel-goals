@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import UsersList from '../components/UsersList';
 import ErrorModal from '../shared/sharedComponents/uiElements/ErrorModal';
 import LoadingSpinner from '../shared/sharedComponents/uiElements/LoadingSpinner';
@@ -23,15 +23,37 @@ const Users = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [loadedUsers, setLoadedUsers] = useState(false);
 
-  useEffect(() => {
-    // here later adding function that fetches data
-    const fetchUsers = () => {
-      return setLoadedUsers(USERS);
-    };
+  const fetchData = useCallback(async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/users');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
 
-    fetchUsers();
+      const data = await response.json();
+      console.log(data);
+      setLoadedUsers(data.users);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   }, []);
 
+  console.log('gggg');
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  // useEffect(() => {
+  //   // here later adding function that fetches data
+  //   const fetchUsers = async() => {
+  //       const dataUsers = await ()=>
+
+  //     return setLoadedUsers(USERS);
+  //   };
+
+  //   fetchUsers();
+  // }, []);
 
   const errorHandler = () => {
     setError(null);
