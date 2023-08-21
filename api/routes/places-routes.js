@@ -6,6 +6,8 @@ const getCoordsForAddress = require('../util/location');
 
 const Place = require('../models/place');
 const User = require('../models/user');
+const fileUpload = require('../middleware/file-upload');
+
 
 // let DUMMY_PLACES = [
 //   {
@@ -99,6 +101,7 @@ router.get('/user/:uid', async (req, res, next) => {
 // CREATE PLACE
 router.post(
   '/',
+  fileUpload.single('image'),
   [
     check('title').not().isEmpty(),
     check('description').isLength({ min: 5 }),
@@ -185,6 +188,7 @@ router.post(
 // UPDATE PLACE
 router.patch(
   '/:pid',
+  fileUpload.single('image'),
   [check('title').not().isEmpty(), check('description').isLength({ min: 5 })],
   async (req, res, next) => {
     const errors = validationResult(req);

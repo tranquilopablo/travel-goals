@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const { check, validationResult } = require('express-validator');
 const User = require('../models/user');
 const Place = require('../models/place');
+const fileUpload = require('../middleware/file-upload');
 
 // const DUMMY_USERS = [
 //   {
@@ -70,6 +71,7 @@ router.get('/:uid', async (req, res, next) => {
 // REGISTER
 router.post(
   '/signup',
+  fileUpload.single('image'),
   [
     check('name').not().isEmpty(),
     check('email').normalizeEmail().isEmail(),
@@ -153,6 +155,7 @@ router.post('/login', async (req, res, next) => {
 //UPDATE USER
 router.patch(
   '/:uid',
+  fileUpload.single('image'),
   [
     check('name').not().isEmpty(),
     check('email').normalizeEmail().isEmail(),
@@ -181,7 +184,7 @@ router.patch(
 
     updatedUser.name = name;
     updatedUser.email = email;
-    updatedUser.password = password;  //   - zmienic pozniej na haszowane haslo
+    updatedUser.password = password; //   - zmienic pozniej na haszowane haslo
 
     try {
       await updatedUser.save();
