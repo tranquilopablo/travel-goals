@@ -26,6 +26,7 @@ const Login = () => {
     firstName: '',
     password: '',
     email: '',
+    image: '',
   };
   // fetch("http://localhost:5000/api/users/signup", {meth.....})
   const {
@@ -46,6 +47,8 @@ const Login = () => {
     onSubmit: () => {
       sendRequest(values);
       handleReset();
+      console.log(values);
+
     },
     
   });
@@ -105,11 +108,13 @@ const Login = () => {
           )}
           {!isLoginMode && (
             <ImageUpload
-              center
               id="image"
+              name="image"
               errorText=""
-              // value={values.image}   // pozniej przerobic imageupload pod formik
-              // onChange={handleChange}
+              // value={values.image}  
+              onChange={handleChange}
+              
+
             />
           )}
           <Input

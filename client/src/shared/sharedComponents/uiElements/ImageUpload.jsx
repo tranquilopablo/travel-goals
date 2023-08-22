@@ -4,7 +4,9 @@ import Button from './Button';
 
 const ImageUpload = (props) => {
   const [file, setFile] = useState();
-  const [previewUrl, setPreviewUrl] = useState(props.initialValue && props.initialValue );
+  const [previewUrl, setPreviewUrl] = useState(
+    props.initialValue && props.initialValue
+  );
   const [isValid, setIsValid] = useState(false);
 
   const filePickerRef = useRef();
@@ -21,8 +23,20 @@ const ImageUpload = (props) => {
   }, [file]);
 
   const pickedHandler = (event) => {
-    setFile(event.target.files[0]);
+    let pickedFile;
+    let fileIsValid = isValid;
     console.log(event.target.files[0]);
+
+    if (event.target.files && event.target.files.length === 1) {
+      pickedFile = event.target.files[0];
+      setFile(pickedFile);
+      setIsValid(true);
+      fileIsValid = true;
+    } else {
+      setIsValid(false);
+      fileIsValid = false;
+    }
+    props.onChange(props.id, pickedFile, fileIsValid);
   };
 
   const pickImageHandler = () => {
@@ -47,6 +61,7 @@ const ImageUpload = (props) => {
           WYBIERZ ZDJĘCIE
         </Button>
       </div>
+      {!isValid && <p>{props.errorText}</p>}
     </div>
   );
 };
