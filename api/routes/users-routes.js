@@ -69,9 +69,11 @@ router.get('/:uid', async (req, res, next) => {
 });
 ////////////////////////////////////////////////////////////////////
 // REGISTER
+
+ 
 router.post(
   '/signup',
-  fileUpload.single('image'),
+    fileUpload.single('image'),
   [
     check('name').not().isEmpty(),
     check('email').normalizeEmail().isEmail(),
@@ -106,7 +108,7 @@ router.post(
       error.code = 422;
       return next(error);
     }
-
+    console.log(req.body);
     const createdUser = new User({
       name,
       email,

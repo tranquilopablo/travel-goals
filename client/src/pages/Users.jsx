@@ -31,14 +31,14 @@ const Users = () => {
       }
 
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       setLoadedUsers(data.users);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      // console.error('Error fetching data:', error);
     }
   }, []);
 
-  console.log('gggg');
+  // console.log('gggg');
 
   useEffect(() => {
     fetchData();

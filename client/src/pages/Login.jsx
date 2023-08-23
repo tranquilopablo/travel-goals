@@ -28,7 +28,6 @@ const Login = () => {
     email: '',
     image: '',
   };
-  // fetch("http://localhost:5000/api/users/signup", {meth.....})
   const {
     values,
     errors,
@@ -39,22 +38,22 @@ const Login = () => {
     handleChange,
     handleReset,
     handleSubmit,
+    setFieldValue,
   } = useFormik({
     initialValues: isLoginMode ? initialValuesLogin : initialValuesRegister,
     validationSchema: isLoginMode
       ? loginValidateSchema
       : registrationValidateSchema,
-    onSubmit: () => {
+    onSubmit: (values) => {
       sendRequest(values);
-      handleReset();
-      console.log(values);
-
+      // handleReset();
     },
-    
   });
 
   const sendRequest = useCallback(async (values) => {
     try {
+      console.log(values);
+
       const response = await fetch('http://localhost:5000/api/users/signup', {
         method: 'POST',
         headers: {
@@ -74,8 +73,6 @@ const Login = () => {
     }
   }, []);
 
-
-
   const clearError = () => {
     setError(null);
   };
@@ -91,7 +88,7 @@ const Login = () => {
         {isLoading && <LoadingSpinner asOverlay />}
         <h2>LOGIN WYMAGANY</h2>
         <hr />
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
           {!isLoginMode && (
             <Input
               element="input"
@@ -111,10 +108,8 @@ const Login = () => {
               id="image"
               name="image"
               errorText=""
-              // value={values.image}  
-              onChange={handleChange}
-              
-
+              // value={values.image}
+              onChange={(e) => setFieldValue('image', e.currentTarget.files[0])}
             />
           )}
           <Input

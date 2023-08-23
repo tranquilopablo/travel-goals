@@ -36,7 +36,8 @@ const ImageUpload = (props) => {
       setIsValid(false);
       fileIsValid = false;
     }
-    props.onChange(props.id, pickedFile, fileIsValid);
+    // props.onChange(props.id, pickedFile, fileIsValid);
+    props.onChange(event);
   };
 
   const pickImageHandler = () => {
@@ -46,10 +47,12 @@ const ImageUpload = (props) => {
   return (
     <div className={css['form-control']}>
       <input
+        name="image"
         ref={filePickerRef}
         style={{ display: 'none' }}
         type="file"
-        accept=".jpg,.png,.jpeg"
+        // accept=".jpg,.png,.jpeg"
+        accept="image/*"
         onChange={pickedHandler}
       />
       <div className={css['image-upload-center']}>
