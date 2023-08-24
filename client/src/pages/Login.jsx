@@ -26,7 +26,7 @@ const Login = () => {
     firstName: '',
     password: '',
     email: '',
-    image: '',
+    image: null,
   };
   const {
     values,
@@ -44,7 +44,7 @@ const Login = () => {
     validationSchema: isLoginMode
       ? loginValidateSchema
       : registrationValidateSchema,
-    onSubmit: (values) => {
+    onSubmit: () => {
       sendRequest(values);
       // handleReset();
     },

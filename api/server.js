@@ -12,7 +12,9 @@ const PORT = 5000;
 app.use(express.json());
 // Parses incoming requests with JSON payloads
 
-// Preventing CORS errors
+// Preventing CORS errors, possibly change into another middleware -const cors = require('cors'), app.use(cors());
+
+
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(

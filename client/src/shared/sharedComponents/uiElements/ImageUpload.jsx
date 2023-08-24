@@ -7,7 +7,7 @@ const ImageUpload = (props) => {
   const [previewUrl, setPreviewUrl] = useState(
     props.initialValue && props.initialValue
   );
-  const [isValid, setIsValid] = useState(false);
+  // const [isValid, setIsValid] = useState(false);
 
   const filePickerRef = useRef();
 
@@ -23,19 +23,19 @@ const ImageUpload = (props) => {
   }, [file]);
 
   const pickedHandler = (event) => {
-    let pickedFile;
-    let fileIsValid = isValid;
+    // let pickedFile;
+    // let fileIsValid = isValid;
     console.log(event.target.files[0]);
 
-    if (event.target.files && event.target.files.length === 1) {
-      pickedFile = event.target.files[0];
-      setFile(pickedFile);
-      setIsValid(true);
-      fileIsValid = true;
-    } else {
-      setIsValid(false);
-      fileIsValid = false;
-    }
+    // if (event.target.files && event.target.files.length === 1) {
+    //   pickedFile = event.target.files[0];
+    //   setFile(pickedFile);
+    //   setIsValid(true);
+    //   fileIsValid = true;
+    // } else {
+    //   setIsValid(false);
+    //   fileIsValid = false;
+    // }
     // props.onChange(props.id, pickedFile, fileIsValid);
     props.onChange(event);
   };
@@ -54,6 +54,7 @@ const ImageUpload = (props) => {
         // accept=".jpg,.png,.jpeg"
         accept="image/*"
         onChange={pickedHandler}
+        // value={props.value}
       />
       <div className={css['image-upload-center']}>
         <div className={css['image-upload__preview']}>

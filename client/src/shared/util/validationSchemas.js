@@ -13,6 +13,10 @@ const emailSchema = Yup.string()
   .email('Podaj poprawny adres email')
   .required('Wymagane');
 
+const imageSchema = Yup.mixed()
+  .required('Zamieść zdjęcie')
+
+
 const titleSchema = Yup.string().required('Podaj nazwę miejsca.');
 
 const descriptionSchema = Yup.string()
@@ -30,10 +34,10 @@ export const registrationValidateSchema = Yup.object().shape({
   firstName: firstNameSchema,
   password: passwordSchema,
   email: emailSchema,
+  image: imageSchema,
 });
 export const newPlaceValidateSchema = Yup.object().shape({
   title: titleSchema,
   description: descriptionSchema,
   address: addressSchema,
- 
 });
