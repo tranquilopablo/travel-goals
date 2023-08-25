@@ -107,9 +107,10 @@ const Login = () => {
             <ImageUpload
               id="image"
               name="image"
-              errorText=""
               // value={values.image}
               onChange={(e) => setFieldValue('image', e.currentTarget.files[0])}
+              errors={errors.image}
+              errorText="Problem podczas ładowania zdjęcia"
             />
           )}
           <Input
