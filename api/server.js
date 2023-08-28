@@ -3,6 +3,7 @@ const placesRoutes = require('./routes/places-routes');
 const usersRoutes = require('./routes/users-routes');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const fs = require('fs');
 
 const app = express();
 // app.use(bodyParser.json());
@@ -13,7 +14,6 @@ app.use(express.json());
 // Parses incoming requests with JSON payloads
 
 // Preventing CORS errors, possibly change into another middleware -const cors = require('cors'), app.use(cors());
-
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -37,6 +37,12 @@ app.use((req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
+  if (req.file) {
+    fs.unlink(req.file.path, (err) => {
+      console.log(err);
+    });
+  }
+
   if (res.headerSent) {
     return next(error);
   }

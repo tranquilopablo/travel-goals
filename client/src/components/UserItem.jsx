@@ -3,14 +3,16 @@ import css from './UserItem.module.css';
 import { Link } from 'react-router-dom';
 import Card from '../shared/sharedComponents/uiElements/Card';
 
-
 const UserItem = (props) => {
   return (
     <li className={css.userItem}>
-       <Card className={css.userItemCard}>
+      <Card className={css.userItemCard}>
         <Link to={`${props.id}/miejsca`}>
           <div className={css.userImage}>
-            <img src={`${props.image}`} alt={props.name} />
+            <img
+              src={`http://localhost:5000/${props.image}`}
+              alt={props.name}
+            />
           </div>
           <div className={css.info}>
             <h2>{props.name}</h2>

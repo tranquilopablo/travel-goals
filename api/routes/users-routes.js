@@ -70,10 +70,9 @@ router.get('/:uid', async (req, res, next) => {
 ////////////////////////////////////////////////////////////////////
 // REGISTER
 
- 
 router.post(
   '/signup',
-    fileUpload.single('image'),
+  fileUpload.single('image'),
   [
     check('name').not().isEmpty(),
     check('email').normalizeEmail().isEmail(),
@@ -112,8 +111,7 @@ router.post(
     const createdUser = new User({
       name,
       email,
-      image:
-        'https://images.pexels.com/photos/4095246/pexels-photo-4095246.jpeg',
+      image: req.file.path,
       password,
       places: [],
     });

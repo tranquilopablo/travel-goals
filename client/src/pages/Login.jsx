@@ -24,7 +24,7 @@ const Login = () => {
     email: '',
   };
 
-console.log(isLoginMode);
+  console.log(isLoginMode);
 
   const initialValuesRegister = {
     firstName: '',
@@ -54,80 +54,80 @@ console.log(isLoginMode);
     },
   });
 
-
-  const sendLoginRequest = useCallback( async (values) => {
+  const sendLoginRequest = useCallback(async (values) => {
     try {
-   console.log(values);
+      console.log(values);
 
-   const responseData = await fetch(
-     'http://localhost:5000/api/users/login',
-     {
-       method: 'POST',
-       headers: {
-         'Content-Type': 'application/json',
-       },
-       body: JSON.stringify({
-         email: values.email,
-         password: values.password,
-       }),
-     }
-   );
-
-   if (!responseData.ok) {
-     throw new Error('Network response was not okk');
-   }
-   //  tutaj logowanie poprzez uzycie redux lub context?
-   navigate(`/`);
-   console.log("powinnismy isc dalej2");
- } catch (e) {}
-
-}, [])
-
-
-/////////////////////////////////////////////////////////
-/////////////////////////////////    zmienic na formdata zeby przeslac zdjecie
-
-  const sendRegistrationRequest = useCallback( async (values) => {
-   try {
-        console.log(values);
-
-        const responseData = await fetch(
-          'http://localhost:5000/api/users/signup',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              name: values.firstName,
-              email: values.email,
-              password: values.password,
-            }),
-          }
-        );
-        if (!responseData.ok) {
-          throw new Error('Network response was not ok');
+      const responseData = await fetch(
+        'http://localhost:5000/api/users/login',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: values.email,
+            password: values.password,
+          }),
         }
-        switchModeHandler()
-      } catch (error) {
-        console.log('Error sending data:', error);
+      );
+
+      if (!responseData.ok) {
+        throw new Error('Network response was not okk');
       }
+      //  tutaj logowanie poprzez uzycie redux lub context?
+      navigate(`/`);
+      console.log('powinnismy isc dalej2');
+    } catch (e) {}
   }, []);
 
+  /////////////////////////////////////////////////////////
+  /////////////////////////////////    zmienic na formdata zeby przeslac zdjecie
 
-
-  const authsubmitHandler  =  async (values) => {
-    if(isLoginMode){
-      sendLoginRequest(values)
-      console.log("logowanie");
-    } else {
-      sendRegistrationRequest(values)
-
-    console.log("rejestracja");
+  const sendRegistrationRequest = useCallback(async (formData) => {
+    try {
+      const responseData = await fetch(
+        'http://localhost:5000/api/users/signup',
+        {
+          method: 'POST',
+          // headers: {
+          //   'Content-Type': 'application/json',
+          // },
+          // body: JSON.stringify({
+          //   name: values.firstName,
+          //   email: values.email,
+          //   password: values.password,
+          // }),
+          body: formData,
+        }
+      );
+      if (!responseData.ok) {
+        throw new Error(responseData.message);
+      }
+      switchModeHandler();
+    } catch (error) {
+      setError(error.message);
+      console.log('Error sending data:', error);
     }
+  }, []);
 
+  const authsubmitHandler = async (values) => {
+    if (isLoginMode) {
+      sendLoginRequest(values);
+      console.log('logowanie');
+    } else {
+      const formData = new FormData();
+      formData.append('email', values.email);
+      formData.append('name', values.firstName);
+      formData.append('password', values.password);
+      formData.append('image', values.image);
+      console.log(values);
+      console.log(formData);
+      sendRegistrationRequest(formData);
+
+      console.log('rejestracja');
+    }
   };
-  
 
   const clearError = () => {
     setError(null);
