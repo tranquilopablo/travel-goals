@@ -52,7 +52,7 @@ const ImageUpload = (props) => {
           WYBIERZ ZDJĘCIE
         </Button>
       </div>
-      {props.errors ? <p>{props.errorText}</p> : null}
+      {props.touched && props.errors ? <p>{props.errorText}</p> : null}
     </div>
   );
 };

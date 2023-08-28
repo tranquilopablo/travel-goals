@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../shared/sharedComponents/uiElements/Button';
 import Card from '../shared/sharedComponents/uiElements/Card';
 import ErrorModal from '../shared/sharedComponents/uiElements/ErrorModal';
@@ -12,6 +13,7 @@ import {
 import Input from '../shared/sharedComponents/uiElements/Input';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [error, setError] = useState(false);
 
@@ -21,6 +23,8 @@ const Login = () => {
     password: '',
     email: '',
   };
+
+console.log(isLoginMode);
 
   const initialValuesRegister = {
     firstName: '',
@@ -45,33 +49,85 @@ const Login = () => {
       ? loginValidateSchema
       : registrationValidateSchema,
     onSubmit: () => {
-      sendRequest(values);
-      // handleReset();
+      authsubmitHandler(values);
+      handleReset();
     },
   });
 
-  const sendRequest = useCallback(async (values) => {
-    try {
-      console.log(values);
 
-      const response = await fetch('http://localhost:5000/api/users/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: values.firstName,
-          email: values.email,
-          password: values.password,
-        }),
-      });
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+  const sendLoginRequest = useCallback( async (values) => {
+    try {
+   console.log(values);
+
+   const responseData = await fetch(
+     'http://localhost:5000/api/users/login',
+     {
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json',
+       },
+       body: JSON.stringify({
+         email: values.email,
+         password: values.password,
+       }),
+     }
+   );
+
+   if (!responseData.ok) {
+     throw new Error('Network response was not okk');
+   }
+   //  tutaj logowanie poprzez uzycie redux lub context?
+   navigate(`/`);
+   console.log("powinnismy isc dalej2");
+ } catch (e) {}
+
+}, [])
+
+
+/////////////////////////////////////////////////////////
+/////////////////////////////////    zmienic na formdata zeby przeslac zdjecie
+
+  const sendRegistrationRequest = useCallback( async (values) => {
+   try {
+        console.log(values);
+
+        const responseData = await fetch(
+          'http://localhost:5000/api/users/signup',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name: values.firstName,
+              email: values.email,
+              password: values.password,
+            }),
+          }
+        );
+        if (!responseData.ok) {
+          throw new Error('Network response was not ok');
+        }
+        switchModeHandler()
+      } catch (error) {
+        console.log('Error sending data:', error);
       }
-    } catch (error) {
-      console.log('Error sending data:', error);
-    }
   }, []);
+
+
+
+  const authsubmitHandler  =  async (values) => {
+    if(isLoginMode){
+      sendLoginRequest(values)
+      console.log("logowanie");
+    } else {
+      sendRegistrationRequest(values)
+
+    console.log("rejestracja");
+    }
+
+  };
+  
 
   const clearError = () => {
     setError(null);
@@ -111,6 +167,7 @@ const Login = () => {
               onChange={(e) => setFieldValue('image', e.currentTarget.files[0])}
               errors={errors.image}
               errorText="Problem podczas ładowania zdjęcia"
+              touched={touched.image}
             />
           )}
           <Input
