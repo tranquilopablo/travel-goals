@@ -58,7 +58,7 @@ const Login = () => {
     try {
       console.log(values);
 
-      const responseData = await fetch(
+      const response = await fetch(
         'http://localhost:5000/api/users/login',
         {
           method: 'POST',
@@ -72,8 +72,9 @@ const Login = () => {
         }
       );
 
-      if (!responseData.ok) {
-        throw new Error('Network response was not okk');
+      const responseData = await response.json();
+      if (!response.ok) {
+        throw new Error(responseData.message);
       }
       //  tutaj logowanie poprzez uzycie redux lub context?
       navigate(`/`);
@@ -86,22 +87,20 @@ const Login = () => {
 
   const sendRegistrationRequest = useCallback(async (formData) => {
     try {
-      const responseData = await fetch(
-        'http://localhost:5000/api/users/signup',
-        {
-          method: 'POST',
-          // headers: {
-          //   'Content-Type': 'application/json',
-          // },
-          // body: JSON.stringify({
-          //   name: values.firstName,
-          //   email: values.email,
-          //   password: values.password,
-          // }),
-          body: formData,
-        }
-      );
-      if (!responseData.ok) {
+      const response = await fetch('http://localhost:5000/api/users/signup', {
+        method: 'POST',
+        // headers: {
+        //   'Content-Type': 'application/json',
+        // },
+        // body: JSON.stringify({
+        //   name: values.firstName,
+        //   email: values.email,
+        //   password: values.password,
+        // }),
+        body: formData,
+      });
+      const responseData = await response.json();
+      if (!response.ok) {
         throw new Error(responseData.message);
       }
       switchModeHandler();

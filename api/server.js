@@ -4,6 +4,7 @@ const usersRoutes = require('./routes/users-routes');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const fs = require('fs');
+const path = require('path');
 
 const app = express();
 // app.use(bodyParser.json());
@@ -12,6 +13,8 @@ const PORT = 5000;
 // Middleware
 app.use(express.json());
 // Parses incoming requests with JSON payloads
+
+app.use('/uploads/images', express.static(path.join('uploads', 'images')));
 
 // Preventing CORS errors, possibly change into another middleware -const cors = require('cors'), app.use(cors());
 
