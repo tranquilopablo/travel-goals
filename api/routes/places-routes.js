@@ -7,7 +7,7 @@ const getCoordsForAddress = require('../util/location');
 const Place = require('../models/place');
 const User = require('../models/user');
 const fileUpload = require('../middleware/file-upload');
-
+const fs = require('fs');
 
 // let DUMMY_PLACES = [
 //   {
@@ -142,8 +142,7 @@ router.post(
       description,
       address,
       location: coordinates,
-      image:
-        'https://t3.gstatic.com/images?q=tbn:ANd9GcTsYfPmGJlhdYYoimizj9KjzYltxPMxmA3fOq7VYtpCUFdwFR8W',
+      image: req.file.path,
       creator,
       priority,
       status,
@@ -225,6 +224,9 @@ router.patch(
     updatedPlace.priority = priority;
     updatedPlace.status = status;
     updatedPlace.done = done;
+    if (req.file) {
+      updatedPlace.image = req.file.path;
+    } 
 
     try {
       await updatedPlace.save();
@@ -255,6 +257,9 @@ router.delete('/:pid', async (req, res, next) => {
     error.code = 404;
     return next(error);
   }
+
+  const imagePath = place.image;
+
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
@@ -267,6 +272,11 @@ router.delete('/:pid', async (req, res, next) => {
     error.code = 500;
     return next(error);
   }
+
+  fs.unlink(imagePath, (err) => {
+    console.log(err);
+  });
+
   res.status(200).json({ message: 'Miejsce usunięto.' });
 });
 

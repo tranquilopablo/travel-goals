@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import Button from '../shared/sharedComponents/uiElements/Button';
 import ErrorModal from '../shared/sharedComponents/uiElements/ErrorModal';
 import LoadingSpinner from '../shared/sharedComponents/uiElements/LoadingSpinner';
@@ -11,6 +13,8 @@ import SelectForm from '../shared/sharedComponents/uiElements/SelectForm';
 import RadioInput from '../shared/sharedComponents/uiElements/RadioInput';
 
 export default function NewPlace() {
+  const navigate = useNavigate();
+
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -23,15 +27,60 @@ export default function NewPlace() {
     address: '',
     selectField: '1',
     radioField: '1',
+    image: null,
   };
 
   const clearError = () => {
     setError(null);
   };
 
-  const newPlaceHandler = () => {
-    console.log('Utworzono Nowe miejsceeee!');
+
+  const  sendNewPlaceRequest = useCallback(async (values) => {
+    try {
+      console.log(values);
+
+      const response = await fetch(
+        'http://localhost:5000/api/places',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: values.email,
+            password: values.password,
+          }),
+        }
+      );
+
+      const responseData = await response.json();
+      if (!response.ok) {
+        throw new Error(responseData.message);
+      }
+      
+      navigate(`/`);
+      console.log('utworzono nowe miejsce');
+    } catch (e) {}
+  }, []);
+
+
+
+  const newPlaceHandler =  async (values) => {
+  //////////////////////////////////
+  ///////////////////////////////////   tutaj dac wlascuiwe dane do formData!!!!!!!!!!!!!!!!
+      const formData = new FormData();
+      formData.append('email', values.email);
+      formData.append('name', values.firstName);
+      formData.append('password', values.password);
+      formData.append('image', values.image);
+      console.log(values);
+      console.log(formData);
+      sendNewPlaceRequest(formData);
+
+      console.log('Nowe miejsce');
+    
   };
+
 
   const {
     values,
@@ -46,8 +95,8 @@ export default function NewPlace() {
   } = useFormik({
     initialValues: initialValuesNewPlace,
     validationSchema: newPlaceValidateSchema,
-    onSubmit: (values) => {
-      newPlaceHandler();
+    onSubmit: () => {
+      newPlaceHandler(values);
       console.log('Utworzono Nowe miejsce!', values);
       handleReset();
     },
@@ -61,7 +110,7 @@ export default function NewPlace() {
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
       <form className={css.placeForm} onSubmit={handleSubmit}>
-      {isLoading && <LoadingSpinner asOverlay />}
+        {isLoading && <LoadingSpinner asOverlay />}
         <Input
           element="input"
           id="title"

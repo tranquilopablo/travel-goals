@@ -185,6 +185,9 @@ router.patch(
     updatedUser.name = name;
     updatedUser.email = email;
     updatedUser.password = password; //   - zmienic pozniej na haszowane haslo
+    if (req.file) {
+      updatedUser.image = req.file.path;
+    } 
 
     try {
       await updatedUser.save();
@@ -221,6 +224,9 @@ router.delete('/:uid', async (req, res, next) => {
     error.code = 404;
     return next(error);
   }
+
+  const imagePath = user.image;
+
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
@@ -232,6 +238,11 @@ router.delete('/:uid', async (req, res, next) => {
     error.code = 500;
     return next(error);
   }
+
+  fs.unlink(imagePath, (err) => {
+    console.log(err);
+  });
+
   res.status(200).json({ message: 'Usunięto użytkownika' });
 });
 

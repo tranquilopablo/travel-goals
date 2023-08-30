@@ -11,6 +11,8 @@ import {
   registrationValidateSchema,
 } from '../shared/util/validationSchemas';
 import Input from '../shared/sharedComponents/uiElements/Input';
+const fs = require('fs');
+
 
 const Login = () => {
   const navigate = useNavigate();
