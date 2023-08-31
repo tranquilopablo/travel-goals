@@ -6,6 +6,8 @@ const { check, validationResult } = require('express-validator');
 const User = require('../models/user');
 const Place = require('../models/place');
 const fileUpload = require('../middleware/file-upload');
+const fs = require('fs');
+
 
 // const DUMMY_USERS = [
 //   {

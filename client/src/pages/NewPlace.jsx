@@ -18,8 +18,10 @@ export default function NewPlace() {
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const newPlaceImg =
-    'https://t3.gstatic.com/images?q=tbn:ANd9GcTsYfPmGJlhdYYoimizj9KjzYltxPMxmA3fOq7VYtpCUFdwFR8W';
+  // const newPlaceImg =
+  //   'https://t3.gstatic.com/images?q=tbn:ANd9GcTsYfPmGJlhdYYoimizj9KjzYltxPMxmA3fOq7VYtpCUFdwFR8W';
+
+  const userId = '64eca0356e64799f64982ea';
 
   const initialValuesNewPlace = {
     title: '',
@@ -34,53 +36,49 @@ export default function NewPlace() {
     setError(null);
   };
 
-
-  const  sendNewPlaceRequest = useCallback(async (values) => {
+  const sendNewPlaceRequest = useCallback(async (formData) => {
     try {
       console.log(values);
 
-      const response = await fetch(
-        'http://localhost:5000/api/places',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: values.email,
-            password: values.password,
-          }),
-        }
-      );
+      const response = await fetch('http://localhost:5000/api/places', {
+        method: 'POST',
+        // headers: {
+        //   'Content-Type': 'application/json',
+        // },
+        body: formData,
+      });
 
       const responseData = await response.json();
       if (!response.ok) {
         throw new Error(responseData.message);
       }
-      
+
       navigate(`/`);
       console.log('utworzono nowe miejsce');
-    } catch (e) {}
+    } catch (e) {
+      console.log(e.message);
+      setError(e.message);
+    }
   }, []);
 
+  const newPlaceHandler = async (values) => {
+    //////////////////////////////////
+    ///////////////////////////////////   tutaj dac wlascuiwe dane do formData!!!!!!!!!!!!!!!!
+    const formData = new FormData();
+    formData.append('title', values.title);
+    formData.append('description', values.description);
+    formData.append('address', values.address);
+    formData.append('image', values.image);
+    formData.append('priority', values.selectField);
+    formData.append('status', values.radioField);
+    formData.append('creator', userId);
 
+    console.log(values);
+    console.log(formData);
+    sendNewPlaceRequest(formData);
 
-  const newPlaceHandler =  async (values) => {
-  //////////////////////////////////
-  ///////////////////////////////////   tutaj dac wlascuiwe dane do formData!!!!!!!!!!!!!!!!
-      const formData = new FormData();
-      formData.append('email', values.email);
-      formData.append('name', values.firstName);
-      formData.append('password', values.password);
-      formData.append('image', values.image);
-      console.log(values);
-      console.log(formData);
-      sendNewPlaceRequest(formData);
-
-      console.log('Nowe miejsce');
-    
+    console.log('Nowe miejsce');
   };
-
 
   const {
     values,
@@ -91,6 +89,7 @@ export default function NewPlace() {
     handleBlur,
     handleChange,
     handleReset,
+    setFieldValue,
     handleSubmit,
   } = useFormik({
     initialValues: initialValuesNewPlace,
@@ -172,12 +171,12 @@ export default function NewPlace() {
           ]}
         />
         <ImageUpload
-          center
           id="image"
-          errorText=""
-          initialValue={newPlaceImg}
-          // value={values.image}   // pozniej przerobic imageupload pod formik
-          // onChange={handleChange}
+          name="image"
+          onChange={(e) => setFieldValue('image', e.currentTarget.files[0])}
+          errors={errors.image}
+          errorText="Problem podczas ładowania zdjęcia"
+          touched={touched.image}
         />
         <Button margin type="submit" disabled={!(isValid && dirty)}>
           DODAJ MIEJSCE
