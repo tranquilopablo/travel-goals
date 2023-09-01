@@ -5,6 +5,8 @@ import {
   Route,
   createRoutesFromElements,
 } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 import Layout from './shared/sharedComponents/uiElements/Layout';
 import Settings from './pages/Settings';
 import UserPlaces from './pages/UserPlaces';
@@ -15,7 +17,8 @@ import Users from './pages/Users';
 
 function App() {
   const [logged, setLogged] = useState(true);
- 
+
+  const queryClient = new QueryClient();
 
   let router;
 
@@ -46,7 +49,11 @@ function App() {
     );
   }
 
-  return <RouterProvider router={router} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
 }
 
 export default App;
