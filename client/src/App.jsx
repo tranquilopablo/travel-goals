@@ -6,6 +6,7 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useSelector } from 'react-redux';
 
 import Layout from './shared/sharedComponents/uiElements/Layout';
 import Settings from './pages/Settings';
@@ -16,7 +17,8 @@ import Login from './pages/Login';
 import Users from './pages/Users';
 
 function App() {
-  const [logged, setLogged] = useState(true);
+  const logged = useSelector((state) => state.appStore.isLoggedIn);
+  // const [logged, setLogged] = useState(true);
 
   const queryClient = new QueryClient();
 

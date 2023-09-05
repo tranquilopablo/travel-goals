@@ -1,33 +1,25 @@
-import {configureStore} from "@reduxjs/toolkit";
+import { configureStore } from '@reduxjs/toolkit';
+
+import storeReducer from "./storeSlice"
 
 
 
-import { createSlice } from '@reduxjs/toolkit'
+const store = configureStore({
+  reducer: { appStore: storeReducer },
+});
 
-const initialState = { value: 0 }
 
-const counterSlice = createSlice({
-  name: 'counter',
-  initialState,
-  reducers: {
-    increment(state) {
-      state.value++
-    },
-    decrement(state) {
-      state.value--
-    },
-    incrementByAmount(state, action) {
-      state.value += action.payload
-    },
-  },
-})
-
-export const { increment, decrement, incrementByAmount } = counterSlice.actions
-export default counterSlice.reducer
+export default store
 
 
 
-// const store = configureStore({
-//     reducer: {appStore: }
-// }
-//     )
+
+// utility redux store 
+// import { useDispatch } from 'react-redux';
+// import { storeActions } from './storeSlice';
+
+// in function component
+// const dispatch = useDispatch();
+
+// in any function for example toggle 
+// dispatch(storeActions.decrement())
