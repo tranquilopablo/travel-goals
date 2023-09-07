@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -6,7 +6,6 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useSelector } from 'react-redux';
 
 import Layout from './shared/sharedComponents/uiElements/Layout';
 import Settings from './pages/Settings';
@@ -17,10 +16,13 @@ import Login from './pages/Login';
 import Users from './pages/Users';
 
 function App() {
-  const logged = useSelector((state) => state.appStore.isLoggedIn);
-  // const [logged, setLogged] = useState(true);
+  const [userId, setUserId] = useState(false);
+  const [userPic, setUserPic] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const queryClient = new QueryClient();
+
+  const logged = useSelector((state) => state.appStore.isLoggedIn);
 
   let router;
 
@@ -52,9 +54,20 @@ function App() {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    <AuthContext.Provider
+      value={{
+        isLoggedIn,
+        userId,
+        userPic,
+        token,
+        login,
+        logout,
+      }}
+    >
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </AuthContext.Provider>
   );
 }
 
