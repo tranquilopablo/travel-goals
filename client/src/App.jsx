@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -6,6 +6,8 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { AuthContext } from './shared/context/auth-context';
+
 
 import Layout from './shared/sharedComponents/uiElements/Layout';
 import Settings from './pages/Settings';
@@ -18,11 +20,32 @@ import Users from './pages/Users';
 function App() {
   const [userId, setUserId] = useState(false);
   const [userPic, setUserPic] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [logged, setLogged] = useState(false);
 
   const queryClient = new QueryClient();
 
-  const logged = useSelector((state) => state.appStore.isLoggedIn);
+
+
+  const login = useCallback((userData ) => {
+   
+    localStorage.setItem(
+      'userData',
+      JSON.stringify({
+        userId: userData.userId,
+        image: userData.image,
+        token: userData.token,
+      })
+    );
+    setToken(userData.token);
+    setUserId(userData.userId);
+    setUserPic(userData.image);
+  }, []);
+
+  const logout = useCallback(() => {
+    localStorage.removeItem('userData');
+    setToken(null);
+    setUserId(null);
+  }, []);
 
   let router;
 
@@ -56,11 +79,11 @@ function App() {
   return (
     <AuthContext.Provider
       value={{
-        isLoggedIn,
+        isLoggedIn: logged,
         userId,
         userPic,
-        token,
-        login,
+        token: "gghh",
+        login: "fdsfgsd",
         logout,
       }}
     >
