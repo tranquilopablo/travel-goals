@@ -19,7 +19,7 @@ import Users from './pages/Users';
 
 function App() {
   const [userId, setUserId] = useState(false);
-  const [userPic, setUserPic] = useState(false);
+  const [userPic, setUserPic] = useState(null);
   const [logged, setLogged] = useState(false);
 
   const queryClient = new QueryClient();
@@ -45,6 +45,7 @@ function App() {
     localStorage.removeItem('userData');
     setToken(null);
     setUserId(null);
+    setUserPic(null);
   }, []);
 
   let router;
@@ -83,7 +84,7 @@ function App() {
         userId,
         userPic,
         token: "gghh",
-        login: "fdsfgsd",
+        login,
         logout,
       }}
     >
