@@ -1,4 +1,6 @@
 import React, { useCallback, useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
 import { useNavigate } from 'react-router-dom';
 import Button from '../shared/sharedComponents/uiElements/Button';
 import Card from '../shared/sharedComponents/uiElements/Card';
@@ -84,9 +86,34 @@ const Login = () => {
   }, []);
 
   /////////////////////////////////////////////////////////
-  /////////////////////////////////    zmienic na formdata zeby przeslac zdjecie
 
-  const sendRegistrationRequest = useCallback(async (formData) => {
+  // const sendRegistrationRequest = useCallback(async (formData) => {
+  //   try {
+  //     const response = await fetch('http://localhost:5000/api/users/signup', {
+  //       method: 'POST',
+  //       // headers: {
+  //       //   'Content-Type': 'application/json',
+  //       // },
+  //       // body: JSON.stringify({
+  //       //   name: values.firstName,
+  //       //   email: values.email,
+  //       //   password: values.password,
+  //       // }),
+  //       body: formData,
+  //     });
+  //     const responseData = await response.json();
+  //     if (!response.ok) {
+  //       throw new Error(responseData.message);
+  //     }
+  //     switchModeHandler();
+  //   } catch (error) {
+  //     setError(error.message);
+  //     console.log('Error sending data:', error);
+  //   }
+  // }, []);
+  const queryClient = useQueryClient();
+
+  const registerFunction = async(formData)=> {
     try {
       const response = await fetch('http://localhost:5000/api/users/signup', {
         method: 'POST',
@@ -109,7 +136,22 @@ const Login = () => {
       setError(error.message);
       console.log('Error sending data:', error);
     }
-  }, []);
+  }
+  const mutation = useMutation(registerFunction, {
+    // onSuccess is called when the mutation is successful
+    onSuccess: () => {
+      // Invalidate the tasks query to refetch the updated data
+      queryClient.invalidateQueries('tasks');
+      // Reset the input field
+      setTaskText('');
+    },
+  });
+  const sendRegistrationRequest = async (formData) => {
+
+    registerFunction(formData)
+  
+  }
+  
 
   const authsubmitHandler = async (values) => {
     if (isLoginMode) {
