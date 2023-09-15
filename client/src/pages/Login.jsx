@@ -14,13 +14,12 @@ import {
 } from '../shared/util/validationSchemas';
 import Input from '../shared/sharedComponents/uiElements/Input';
 
-
 const Login = () => {
   const navigate = useNavigate();
   const [isLoginMode, setIsLoginMode] = useState(true);
-  const [error, setError] = useState(false);
+  // const [error, setError] = useState(false);
 
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   const initialValuesLogin = {
     password: '',
@@ -52,7 +51,7 @@ const Login = () => {
       ? loginValidateSchema
       : registrationValidateSchema,
     onSubmit: () => {
-      authsubmitHandler(values);
+      authSubmitHandler(values);
       handleReset();
     },
   });
@@ -61,19 +60,16 @@ const Login = () => {
     try {
       console.log(values);
 
-      const response = await fetch(
-        'http://localhost:5000/api/users/login',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: values.email,
-            password: values.password,
-          }),
-        }
-      );
+      const response = await fetch('http://localhost:5000/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: values.email,
+          password: values.password,
+        }),
+      });
 
       const responseData = await response.json();
       if (!response.ok) {
@@ -89,6 +85,8 @@ const Login = () => {
 
   // const sendRegistrationRequest = useCallback(async (formData) => {
   //   try {
+  //     console.log(formData);
+
   //     const response = await fetch('http://localhost:5000/api/users/signup', {
   //       method: 'POST',
   //       // headers: {
@@ -111,49 +109,41 @@ const Login = () => {
   //     console.log('Error sending data:', error);
   //   }
   // }, []);
-  const queryClient = useQueryClient();
 
-  const registerFunction = async(formData)=> {
+  // const queryClient = useQueryClient();
+
+  const registerFunction = async (formData) => {
+    console.log(formData);
     try {
       const response = await fetch('http://localhost:5000/api/users/signup', {
         method: 'POST',
         // headers: {
         //   'Content-Type': 'application/json',
         // },
-        // body: JSON.stringify({
-        //   name: values.firstName,
-        //   email: values.email,
-        //   password: values.password,
-        // }),
         body: formData,
       });
-      const responseData = await response.json();
+      const data = await response.json();
       if (!response.ok) {
-        throw new Error(responseData.message);
+        throw new Error(data.message);
       }
       switchModeHandler();
     } catch (error) {
-      setError(error.message);
+      // setError(error.message);
       console.log('Error sending data:', error);
     }
-  }
-  const mutation = useMutation(registerFunction, {
-    // onSuccess is called when the mutation is successful
-    onSuccess: () => {
-      // Invalidate the tasks query to refetch the updated data
-      queryClient.invalidateQueries('tasks');
-      // Reset the input field
-      setTaskText('');
-    },
+  };
+
+  const { data, isLoading, isError, error, mutate } = useMutation({
+    mutationFn: (formData) => registerFunction(formData),
   });
-  const sendRegistrationRequest = async (formData) => {
 
-    registerFunction(formData)
-  
-  }
-  
+  // const sendRegistrationRequest = async (formData) => {
 
-  const authsubmitHandler = async (values) => {
+  //   mutate(formData)
+
+  // }
+
+  const authSubmitHandler = async (values) => {
     if (isLoginMode) {
       sendLoginRequest(values);
       console.log('logowanie');
@@ -163,9 +153,9 @@ const Login = () => {
       formData.append('name', values.firstName);
       formData.append('password', values.password);
       formData.append('image', values.image);
-      console.log(values);
-      console.log(formData);
-      sendRegistrationRequest(formData);
+
+      // sendRegistrationRequest(formData);
+      mutate(formData);
 
       console.log('rejestracja');
     }
