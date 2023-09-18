@@ -17,7 +17,7 @@ import Input from '../shared/sharedComponents/uiElements/Input';
 const Login = () => {
   const navigate = useNavigate();
   const [isLoginMode, setIsLoginMode] = useState(true);
-  // const [error, setError] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   // const [isLoading, setIsLoading] = useState(false);
 
@@ -25,8 +25,6 @@ const Login = () => {
     password: '',
     email: '',
   };
-
-  console.log(isLoginMode);
 
   const initialValuesRegister = {
     firstName: '',
@@ -56,7 +54,7 @@ const Login = () => {
     },
   });
 
-  const sendLoginRequest = useCallback(async (values) => {
+  const loginRequest = async (values) => {
     try {
       console.log(values);
 
@@ -73,13 +71,18 @@ const Login = () => {
 
       const responseData = await response.json();
       if (!response.ok) {
+        // throw new Error(responseData.message);
         throw new Error(responseData.message);
       }
-      //  tutaj logowanie poprzez uzycie redux lub context?
       navigate(`/`);
       console.log('powinnismy isc dalej2');
-    } catch (e) {}
-  }, []);
+    } catch (err) {
+      throw new Error(err.message);
+
+      setHasErrorr(err.message);
+      // throw err;
+    }
+  };
 
   /////////////////////////////////////////////////////////
 
@@ -110,9 +113,7 @@ const Login = () => {
   //   }
   // }, []);
 
-  // const queryClient = useQueryClient();
-
-  const registerFunction = async (formData) => {
+  const registerRequest = async (formData) => {
     console.log(formData);
     try {
       const response = await fetch('http://localhost:5000/api/users/signup', {
@@ -134,7 +135,8 @@ const Login = () => {
   };
 
   const { data, isLoading, isError, error, mutate } = useMutation({
-    mutationFn: (formData) => registerFunction(formData),
+    // mutationFn: (formData) => registerFunction(formData),
+    mutationFn: isLoginMode ? loginRequest : registerRequest,
   });
 
   // const sendRegistrationRequest = async (formData) => {
@@ -145,7 +147,7 @@ const Login = () => {
 
   const authSubmitHandler = async (values) => {
     if (isLoginMode) {
-      sendLoginRequest(values);
+      mutate(values);
       console.log('logowanie');
     } else {
       const formData = new FormData();
@@ -162,16 +164,21 @@ const Login = () => {
   };
 
   const clearError = () => {
-    setError(null);
+    setHasError(null);
   };
 
   const switchModeHandler = () => {
     setIsLoginMode((prevMode) => !prevMode);
   };
 
+  console.log(error);
+
   return (
     <>
-      <ErrorModal error={error} onClear={clearError} />
+      {error && <ErrorModal error={error.message} onClear={clearError} />}
+
+      {/* <ErrorModal error={error.message} onClear={clearError} />  */}
+
       <Card login>
         {isLoading && <LoadingSpinner asOverlay />}
         <h2>LOGIN WYMAGANY</h2>

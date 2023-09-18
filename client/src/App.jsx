@@ -5,8 +5,11 @@ import {
   Route,
   createRoutesFromElements,
 } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {  QueryClientProvider } from '@tanstack/react-query';
 import { AuthContext } from './shared/context/auth-context';
+// import {queryClient} from "./shared/hooks/http"
+import { QueryClient } from '@tanstack/react-query';
+
 
 
 import Layout from './shared/sharedComponents/uiElements/Layout';
@@ -22,7 +25,7 @@ function App() {
   const [userPic, setUserPic] = useState(null);
   const [logged, setLogged] = useState(false);
 
-  const queryClient = new QueryClient();
+ const queryClient = new QueryClient();
 
 
 
