@@ -1,7 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-
 import { useNavigate } from 'react-router-dom';
+
+import { loginRequest, registerRequest } from '../shared/hooks/http';
 import Button from '../shared/sharedComponents/uiElements/Button';
 import Card from '../shared/sharedComponents/uiElements/Card';
 import ErrorModal from '../shared/sharedComponents/uiElements/ErrorModal';
@@ -19,7 +20,6 @@ const Login = () => {
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [hasError, setHasError] = useState(false);
 
-  // const [isLoading, setIsLoading] = useState(false);
 
   const initialValuesLogin = {
     password: '',
@@ -54,96 +54,17 @@ const Login = () => {
     },
   });
 
-  const loginRequest = async (values) => {
-    try {
-      console.log(values);
+  
 
-      const response = await fetch('http://localhost:5000/api/users/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: values.email,
-          password: values.password,
-        }),
-      });
-
-      const responseData = await response.json();
-      if (!response.ok) {
-        // throw new Error(responseData.message);
-        throw new Error(responseData.message);
-      }
-      navigate(`/`);
-      console.log('powinnismy isc dalej2');
-    } catch (err) {
-      throw new Error(err.message);
-
-      setHasErrorr(err.message);
-      // throw err;
-    }
-  };
-
-  /////////////////////////////////////////////////////////
-
-  // const sendRegistrationRequest = useCallback(async (formData) => {
-  //   try {
-  //     console.log(formData);
-
-  //     const response = await fetch('http://localhost:5000/api/users/signup', {
-  //       method: 'POST',
-  //       // headers: {
-  //       //   'Content-Type': 'application/json',
-  //       // },
-  //       // body: JSON.stringify({
-  //       //   name: values.firstName,
-  //       //   email: values.email,
-  //       //   password: values.password,
-  //       // }),
-  //       body: formData,
-  //     });
-  //     const responseData = await response.json();
-  //     if (!response.ok) {
-  //       throw new Error(responseData.message);
-  //     }
-  //     switchModeHandler();
-  //   } catch (error) {
-  //     setError(error.message);
-  //     console.log('Error sending data:', error);
-  //   }
-  // }, []);
-
-  const registerRequest = async (formData) => {
-    console.log(formData);
-    try {
-      const response = await fetch('http://localhost:5000/api/users/signup', {
-        method: 'POST',
-        // headers: {
-        //   'Content-Type': 'application/json',
-        // },
-        body: formData,
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message);
-      }
-      switchModeHandler();
-    } catch (error) {
-      // setError(error.message);
-      console.log('Error sending data:', error);
-    }
-  };
-
-  const { data, isLoading, isError, error, mutate } = useMutation({
-    // mutationFn: (formData) => registerFunction(formData),
+  const { isLoading, error, mutate } = useMutation({
     mutationFn: isLoginMode ? loginRequest : registerRequest,
+    onSuccess: () => {
+      isLoginMode ? navigate(`/`) : switchModeHandler();
+    },
+    onError: (error) => setHasError(error.message),
   });
 
-  // const sendRegistrationRequest = async (formData) => {
 
-  //   mutate(formData)
-
-  // }
 
   const authSubmitHandler = async (values) => {
     if (isLoginMode) {
@@ -156,7 +77,6 @@ const Login = () => {
       formData.append('password', values.password);
       formData.append('image', values.image);
 
-      // sendRegistrationRequest(formData);
       mutate(formData);
 
       console.log('rejestracja');
@@ -175,10 +95,7 @@ const Login = () => {
 
   return (
     <>
-      {error && <ErrorModal error={error.message} onClear={clearError} />}
-
-      {/* <ErrorModal error={error.message} onClear={clearError} />  */}
-
+      <ErrorModal error={hasError} onClear={clearError} />
       <Card login>
         {isLoading && <LoadingSpinner asOverlay />}
         <h2>LOGIN WYMAGANY</h2>
