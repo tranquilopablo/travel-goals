@@ -20,7 +20,6 @@ const Login = () => {
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [hasError, setHasError] = useState(false);
 
-
   const initialValuesLogin = {
     password: '',
     email: '',
@@ -54,17 +53,21 @@ const Login = () => {
     },
   });
 
-  
-
   const { isLoading, error, mutate } = useMutation({
-    mutationFn: isLoginMode ? loginRequest : registerRequest,
+    // mutationFn: isLoginMode
+    //   ? (signal, data) => loginRequest(data, signal)
+    //   : (signal, data) => registerRequest(data, signal),
+    mutationFn: isLoginMode
+      ? ( data) => loginRequest(data)
+      : (data) => registerRequest(data),
+    // mutationFn: (data) => loginRequest(data),
+    // mutationFn: (data) => registerRequest(data),
+
     onSuccess: () => {
       isLoginMode ? navigate(`/`) : switchModeHandler();
     },
     onError: (error) => setHasError(error.message),
   });
-
-
 
   const authSubmitHandler = async (values) => {
     if (isLoginMode) {
@@ -91,7 +94,6 @@ const Login = () => {
     setIsLoginMode((prevMode) => !prevMode);
   };
 
-  console.log(error);
 
   return (
     <>
