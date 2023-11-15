@@ -7,7 +7,8 @@ export const useHttpClient = async ({ signal, term }) => {
     url,
     method = 'GET',
     body = null,
-    headers = {}
+    headers = {},
+    signal = null
   ) => {
     try {
       const response = await fetch(url, {
@@ -83,7 +84,6 @@ export const registerRequest = async (formData, signal) => {
   try {
     const response = await fetch('http://localhost:5000/api/users/signup', {
       method: 'POST',
-
       body: formData,
       signal,
     });
