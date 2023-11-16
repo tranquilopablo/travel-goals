@@ -32,29 +32,12 @@ export const useHttpClient = async ({ signal, term }) => {
   return { isLoading, error, sendRequest, clearError };
 };
 
-// try {
-//   const response = await fetch(url, {
-//     method,
-//     body,
-//     headers,
-//     signal: signal,
-//   });
-//   const responseData = await response.json();
 
-//   if (!response.ok) {
-//     throw new Error(responseData.message);
-//   }
-//   return responseData;
-// } catch (err) {
-//   setError(err.message);
-//   setIsLoading(false);
-//   throw err;
-// }
 
-export const loginRequest = async (values) => {
+export const loginRequest = async ({values, signal}) => {
   try {
-    console.log(values);
-    // console.log(signal);
+    console.log(values);  // not working!
+    console.log(signal);
 
     const response = await fetch('http://localhost:5000/api/users/login', {
       method: 'POST',
@@ -65,7 +48,7 @@ export const loginRequest = async (values) => {
         email: values.email,
         password: values.password,
       }),
-      // signal,
+      signal,
     });
 
     const responseData = await response.json();
