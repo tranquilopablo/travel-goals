@@ -8,7 +8,7 @@ export const useHttpClient = async ({ signal, term }) => {
     method = 'GET',
     body = null,
     headers = {},
-    signal = null
+    signal = null  // replace with delivered signal
   ) => {
     try {
       const response = await fetch(url, {
