@@ -26,6 +26,8 @@ export const useHttpClient = async ({ signal, term }) => {
       return responseData;
     } catch (err) {
       throw new Error(err.message);
+      console.log(err);   // remove it
+      
     }
   };
 
@@ -61,7 +63,7 @@ export const loginRequest = async (values) => {        // npw it works but witho
   } catch (err) {
     throw new Error(err.message);
   }
-};
+}
 
 export const registerRequest = async (formData, signal) => {
   console.log(formData);
