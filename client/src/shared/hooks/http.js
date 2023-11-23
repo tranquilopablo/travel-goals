@@ -2,36 +2,39 @@ import { QueryClient } from '@tanstack/react-query';
 
 export const queryClient = new QueryClient();
 
-export const useHttpClient = async ({ signal, term }) => {
-  const sendRequest = async (
-    url,
-    method = 'GET',
-    body = null,
-    headers = {},
-    signal = null  // replace with delivered signal
-  ) => {
-    try {
-      const response = await fetch(url, {
-        method,
-        body,
-        headers,
-        signal: httpAbortCtrl.signal,
-      });
-      const responseData = await response.json();
+// export const useHttpClient = async ({ signal, term }) => {
+//   const sendRequest = async (
+//     url,
+//     method = 'GET',
+//     body = null,
+//     headers = {},
+//     signal = null  // replace with delivered signal
+//   ) => {
+//     try {
+//       const response = await fetch(url, {
+//         method,
+//         body,
+//         headers,
+//         signal: httpAbortCtrl.signal,
+//       });
+//       const responseData = await response.json();
 
-      if (!response.ok) {
-        throw new Error(responseData.message);
-      }
-      setIsLoading(false);
-      return responseData;
-    } catch (err) {
-      throw new Error(err.message);
-      console.log(err);   // remove it
+//       if (!response.ok) {
+//         throw new Error(responseData.message);
+//       }
+//       setIsLoading(false);
+//       return responseData;
+//     } catch (err) {
+//       throw new Error(err.message);
+//       console.log(err);   // remove it
       
-    }
-  };
+//     }
+//   };
 
-  return { isLoading, error, sendRequest, clearError };
+//   return { isLoading, error, sendRequest, clearError };
+// };
+export const useHttpClient = async ({ signal, term }) => {
+  
 };
 
 
