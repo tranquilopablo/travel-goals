@@ -54,12 +54,12 @@ const Login = () => {
   });
 
   const { isLoading, error, mutate } = useMutation({
-    // mutationFn: isLoginMode
-    //   ? ({signal, data}) => loginRequest({signal, data})
-    //   : ({signal, data}) => registerRequest({signal, data}),
     mutationFn: isLoginMode
-      ? ( data) => loginRequest(data)
-      : (data) => registerRequest(data),
+      ? ({ signal }, data) => loginRequest({ signal }, data)
+      : ({ signal }) => registerRequest({ signal }, data),
+    // mutationFn: isLoginMode
+    //   ? ( data) => loginRequest(data)
+    //   : (data) => registerRequest(data),
     // mutationFn: (data) => loginRequest(data),
     // mutationFn: (data) => registerRequest(data),
 
@@ -93,7 +93,6 @@ const Login = () => {
   const switchModeHandler = () => {
     setIsLoginMode((prevMode) => !prevMode);
   };
-
 
   return (
     <>

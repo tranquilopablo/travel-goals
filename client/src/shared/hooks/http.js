@@ -40,10 +40,10 @@ export const useHttpClient = async ({ signal, term }) => {
 
 
 // export const loginRequest = async ({values, signal}) => {
-export const loginRequest = async (values) => {        // npw it works but without signal 
+export const loginRequest = async ({signal = null}, values) => {        // npw it works but without signal 
   try {
     console.log(values);  // not working!
-    // console.log(signal);
+    console.log(signal);
 
     const response = await fetch('http://localhost:5000/api/users/login', {
       method: 'POST',
