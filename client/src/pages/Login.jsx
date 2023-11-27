@@ -54,14 +54,42 @@ const Login = () => {
   });
 
   const { isLoading, error, mutate } = useMutation({
-    mutationFn: isLoginMode
-      ? ({ signal }, data) => loginRequest({ signal }, data)
-      : ({ signal }) => registerRequest({ signal }, data),
+    // mutationFn: isLoginMode
+    //   ? ({ signal }, data) => loginRequest({ signal }, data)
+    //   : ({ signal }) => registerRequest({ signal }, data),
     // mutationFn: isLoginMode
     //   ? ( data) => loginRequest(data)
     //   : (data) => registerRequest(data),
     // mutationFn: (data) => loginRequest(data),
     // mutationFn: (data) => registerRequest(data),
+
+    mutationFn: async ( { signal, values}) => {
+      try {
+        console.log(values);  // not working!
+        console.log({signal});
+    
+        const response = await fetch('http://localhost:5000/api/users/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: values.email,
+            password: values.password,
+          }),
+          signal,
+        });
+    
+        const responseData = await response.json();
+        if (!response.ok) {
+          throw new Error(responseData.message);
+        }
+    
+        console.log('powinnismy isc dalej2');
+      } catch (err) {
+        throw new Error(err.message);
+      }
+    },
 
     onSuccess: () => {
       isLoginMode ? navigate(`/`) : switchModeHandler();
@@ -71,7 +99,8 @@ const Login = () => {
 
   const authSubmitHandler = async (values) => {
     if (isLoginMode) {
-      mutate(values);
+      // mutate(values);
+      mutate({values});
       console.log('logowanie');
     } else {
       const formData = new FormData();
