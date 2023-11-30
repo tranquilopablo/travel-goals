@@ -65,7 +65,7 @@ const Login = () => {
 
     mutationFn: async ( { signal, values}) => {
       try {
-        console.log(values);  // not working!
+        console.log(values);  
         console.log({signal});
     
         const response = await fetch('http://localhost:5000/api/users/login', {
